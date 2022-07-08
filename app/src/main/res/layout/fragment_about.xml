@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/frameContainer"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".view.fragments.AboutFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:id="@+id/ivTypeOne"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/imagepokemon"
+            android:elevation="6dp"
+            app:layout_constraintEnd_toStartOf="@+id/ivTypeTwo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guidelineTop"
+            tools:src="@drawable/normal" />
+
+        <ImageView
+            android:id="@+id/ivTypeTwo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/imagepokemon"
+            android:elevation="6dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivTypeOne"
+            app:layout_constraintTop_toTopOf="@+id/guidelineTop"
+            tools:src="@drawable/normal" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mtvTypeOne"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="16dp"
+            android:background="@drawable/bg_type_name"
+            android:paddingHorizontal="10dp"
+            android:paddingBottom="1dp"
+            android:shadowColor="@color/black_20_percent_opacity"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="2"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/ivTypeOne"
+            app:layout_constraintStart_toStartOf="@+id/ivTypeOne"
+            app:layout_constraintTop_toBottomOf="@+id/ivTypeOne"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="Psychic" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mtvLabelHeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineMiddle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mtvHeight"
+            android:text="@string/height" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mtvLabelWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@id/mtvWeight"
+            android:text="@string/weight" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mtvLabelBaseExperience"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guidelineMiddle"
+            app:layout_constraintTop_toBottomOf="@id/mtvBaseExperience"
+            android:text="@string/xp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mtvHeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineMiddle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mtvTypeOne"
+            tools:text="@string/about" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mtvWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@id/mtvTypeOne"
+            tools:text="@string/about" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mtvBaseExperience"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guidelineMiddle"
+            app:layout_constraintTop_toBottomOf="@id/mtvTypeOne"
+            tools:text="@string/about" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mtvTypeTwo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="16dp"
+            android:background="@drawable/bg_type_name"
+            android:paddingHorizontal="10dp"
+            android:paddingBottom="1dp"
+            android:shadowColor="@color/black_20_percent_opacity"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="2"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/ivTypeTwo"
+            app:layout_constraintStart_toStartOf="@+id/ivTypeTwo"
+            app:layout_constraintTop_toBottomOf="@+id/ivTypeTwo"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="Psychic" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineMiddle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.50" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.25" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.75" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.05" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

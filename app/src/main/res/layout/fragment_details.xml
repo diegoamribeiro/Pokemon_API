@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/constraintParent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="0dp"
+    android:fillViewport="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/CardViewStyle"
+    tools:context=".view.fragments.details.DetailsFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mtvCurrentPokemon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/didact_gothic_regular"
+            android:shadowColor="@color/black_20_percent_opacity"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="2"
+            android:textColor="@color/white"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Bulbasaur" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mtvCurrentNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/didact_gothic"
+            android:paddingBottom="1dp"
+            android:shadowColor="@color/black_20_percent_opacity"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="2"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/mtvCurrentPokemon"
+            app:layout_constraintTop_toBottomOf="@+id/mtvCurrentPokemon"
+            tools:text="#1" />
+
+        <ImageView
+            android:id="@+id/ivPokeball"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:contentDescription="@string/imagepokemon"
+            android:src="@drawable/pokeball"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mtvCurrentPokemon"
+            app:layout_constraintVertical_bias="0.19" />
+
+        <ImageView
+            android:id="@+id/ivCurrentPokemon"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:contentDescription="@string/imagepokemon"
+            android:elevation="6dp"
+            app:layout_constraintBottom_toBottomOf="@+id/ivPokeball"
+            app:layout_constraintEnd_toEndOf="@+id/cardDetails"
+            app:layout_constraintHorizontal_bias="0.63"
+            app:layout_constraintStart_toStartOf="@+id/cardDetails"
+            app:layout_constraintTop_toTopOf="@+id/ivPokeball"
+            app:layout_constraintVertical_bias="0.3"
+            tools:src="@drawable/kadabra" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardDetails"
+            style="@style/CardViewStyle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="32dp"
+            android:fitsSystemWindows="false"
+            android:layout_marginStart="22dp"
+            android:layout_marginEnd="22dp"
+            android:foregroundGravity="center_vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivPokeball" >
+
+            <FrameLayout
+                android:id="@+id/containerDetails"
+                android:layout_marginTop="60dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            </FrameLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

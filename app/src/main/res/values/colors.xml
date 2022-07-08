@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black_50_percent_opacity">#80000000</color>
+    <color name="black_30_percent_opacity">#4D000000</color>
+    <color name="black_20_percent_opacity">#33000000</color>
+    <color name="black_10_percent_opacity">#1A000000</color>
+
+    <color name="white_50_percent_opacity">#4DFFFFFF</color>
+    <color name="white_100_percent_opacity">#00FFFFFF</color>
+
+<!--    https://bulbapedia.bulbagarden.net/wiki/Category:Type_color_templates-->
+
+<!--    Type Colors   -->
+    <color name="bug_color">#A8B820</color>
+    <color name="bug_dark_color">#6D7815</color>
+    <color name="bug_light_color">#C6D16E</color>
+
+    <color name="dark_color">#705848</color>
+    <color name="dark_dark_color">#49392F</color>
+    <color name="dark_light_color">#A29288</color>
+
+    <color name="dragon_color">#7038F8</color>
+    <color name="dragon_dark_color">#4924A1</color>
+    <color name="dragon_light_color">#A27DFA</color>
+
+    <color name="electric_color">#F8D030</color>
+    <color name="electric_dark_color">#A1871F</color>
+    <color name="electric_light_color">#FAE078</color>
+
+    <color name="fairy_color">#EE99AC</color>
+    <color name="fairy_dark_color">#9B6470</color>
+    <color name="fairy_light_color">#F4BDC9</color>
+
+    <color name="fighting_color">#C03028</color>
+    <color name="fighting_dark_color">#7D1F1A</color>
+    <color name="fighting_light_color">#D67873</color>
+
+    <color name="fire_color">#F08030</color>
+    <color name="fire_dark_color">#9C531F</color>
+    <color name="fire_light_color">#F5AC78</color>
+
+    <color name="ground_color">#E0C068</color>
+    <color name="ground_dark_color">#927D44</color>
+    <color name="ground_light_color">#EBD69D</color>
+
+    <color name="template_fire_color">#E24242</color>
+    <color name="template_dark_color">#932B2B</color>
+    <color name="template_light_color">#EC8484</color>
+
+    <color name="flying_color">#A890F0</color>
+    <color name="flying_dark_color">#6D5E9C</color>
+    <color name="flying_light_color">#C6B7F5</color>
+
+    <color name="ghost_color">#705898</color>
+    <color name="ghost_dark_color">#493963</color>
+    <color name="ghost_light_color">#A292BC</color>
+
+    <color name="grass_color">#78C850</color>
+    <color name="grass_dark_color">#4E8234</color>
+    <color name="grass_light_color">#A7DB8D</color>
+
+    <color name="ice_color">#98D8D8</color>
+    <color name="ice_dark_color">#638D8D</color>
+    <color name="ice_light_color">#BCE6E6</color>
+
+    <color name="normal_color">#A8A878</color>
+    <color name="normal_dark_color">#6D6D4E</color>
+    <color name="normal_light_color">#C6C6A7</color>
+
+    <color name="poison_color">#A040A0</color>
+    <color name="poison_dark_color">#682A68</color>
+    <color name="poison_light_color">#C183C1</color>
+
+    <color name="psychic_color">#F85888</color>
+    <color name="psychic_dark_color">#A13959</color>
+    <color name="psychic_light_color">#FA92B2</color>
+
+    <color name="rock_color">#B8A038</color>
+    <color name="rock_dark_color">#786824</color>
+    <color name="rock_light_color">#D1C17D</color>
+
+    <color name="steel_color">#B8B8D0</color>
+    <color name="steel_dark_color">#787887</color>
+    <color name="steel_light_color">#D1D1E0</color>
+
+    <color name="water_color">#5BC7E5</color>
+    <color name="water_dark_color">#3B8295</color>
+    <color name="water_light_color">#94DBEE</color>
+
+</resources>
