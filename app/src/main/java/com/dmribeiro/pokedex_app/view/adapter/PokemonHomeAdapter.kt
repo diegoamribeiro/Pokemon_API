@@ -36,7 +36,7 @@ class PokemonHomeAdapter : RecyclerView.Adapter<PokemonHomeAdapter.HomeViewHolde
             mtvNumber.text = "#${pokemonList[position].number.toString().padStart(3,'0')}"
             cardViewType.setTypeLightColor(pokemonList[position].types[0].type.name)
 
-            Glide.with(ivPokemon)
+            Glide.with(holder.itemView)
                 .load("$IMAGE_URL${pokemonList[position].number}.png")
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(ivPokemon)

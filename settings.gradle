@@ -5,6 +5,21 @@ dependencyResolutionManagement {
         mavenCentral()
         jcenter() // Warning: this repository is going to shut down soon
     }
+
+    pluginManagement {
+        resolutionStrategy {
+            eachPlugin {
+                if (requested.id.id == "kotlin-multiplatform") {
+                    useModule("org.jetbrains.kotlin:kotlin-gradle-plugin:${requested.version}")
+                }
+                if (requested.id.id == "kotlinx-serialization") {
+                    useModule("org.jetbrains.kotlin:kotlin-serialization:${requested.version}")
+                }
+            }
+        }
+    }
 }
+
+
 rootProject.name = "Pokedex_App"
 include ':app'

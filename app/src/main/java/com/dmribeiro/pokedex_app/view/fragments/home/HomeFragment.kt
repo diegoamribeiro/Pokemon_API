@@ -18,7 +18,9 @@ import com.dmribeiro.pokedex_app.MainActivity
 import com.dmribeiro.pokedex_app.R
 import android.view.LayoutInflater
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.dmribeiro.pokedex_app.remote.NetworkResponse
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
@@ -62,22 +64,26 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     private fun requestApiData(){
-        homeViewModel.getAllLocalPokemon()
-        homeViewModel.pokemonResponse.observe(viewLifecycleOwner,  {response ->
-            when(response){
-                is NetworkResponse.Success->{
-                    response.data?.let {
-                        homeAdapter.setData(it)
+        lifecycleScope.launch {
+            homeViewModel.getAllPokemon()
+            homeViewModel.pokemonResponse.observe(viewLifecycleOwner) { response ->
+                when (response) {
+                    is NetworkResponse.Success -> {
+                        response.data?.let {
+                            homeAdapter.setData(it)
+                            Log.d("**Data", it.toString())
+                        }
                     }
-                }
-                is NetworkResponse.Error ->{
-                    response.message.let {
-                        Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                    is NetworkResponse.Error -> {
+                        response.message.let {
+                            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                        }
                     }
+                    //else -> Toast.makeText(requireContext(), response.message, Toast.LENGTH_SHORT).show()
                 }
-                //else -> Toast.makeText(requireContext(), response.message, Toast.LENGTH_SHORT).show()
             }
-        })
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
