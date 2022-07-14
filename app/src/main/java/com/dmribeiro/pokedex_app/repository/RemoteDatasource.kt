@@ -1,10 +1,7 @@
 package com.dmribeiro.pokedex_app.repository
 
-import com.dmribeiro.pokedex_app.database.PokemonDatabase
-import com.dmribeiro.pokedex_app.domain.Pokemon
-import com.dmribeiro.pokedex_app.model.PokemonApiResult
+import com.dmribeiro.pokedex_app.model.PokemonEntity
 import com.dmribeiro.pokedex_app.model.PokemonResponse
-import com.dmribeiro.pokedex_app.model.PokemonResult
 import com.dmribeiro.pokedex_app.remote.PokemonApiService
 import retrofit2.Response
 import javax.inject.Inject
@@ -16,7 +13,7 @@ class RemoteDatasource @Inject constructor(
         return pokemonApiService.getAllPokemon()
     }
 
-    suspend fun getPokemon(name: String): Pokemon{
+    suspend fun getPokemon(name: String): Response<PokemonEntity>{
         return pokemonApiService.getPokemon(name)
     }
 

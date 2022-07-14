@@ -1,6 +1,5 @@
 package com.dmribeiro.pokedex_app.view.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
@@ -10,7 +9,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.dmribeiro.pokedex_app.databinding.ItemPokemonBinding
 import com.dmribeiro.pokedex_app.domain.Pokemon
-import com.dmribeiro.pokedex_app.utils.Constants.IMAGE_URL
 import com.dmribeiro.pokedex_app.utils.DiffUtilGeneric
 import com.dmribeiro.pokedex_app.utils.setTypeLightColor
 import com.dmribeiro.pokedex_app.view.fragments.home.HomeFragmentDirections
@@ -37,7 +35,7 @@ class PokemonHomeAdapter : RecyclerView.Adapter<PokemonHomeAdapter.HomeViewHolde
             cardViewType.setTypeLightColor(pokemonList[position].types[0].type.name)
 
             Glide.with(holder.itemView)
-                .load("$IMAGE_URL${pokemonList[position].number}.png")
+                .load(pokemonList[position].imageUrl.other.officialArt.frontDefault)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(ivPokemon)
         }
@@ -47,9 +45,6 @@ class PokemonHomeAdapter : RecyclerView.Adapter<PokemonHomeAdapter.HomeViewHolde
             holder.itemView.findNavController().navigate(action)
         }
     }
-
-
-
 
     fun setData(list: List<Pokemon>){
         val pokemonDiffUtil = DiffUtilGeneric(pokemonList, list)

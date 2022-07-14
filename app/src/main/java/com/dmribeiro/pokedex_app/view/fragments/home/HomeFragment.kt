@@ -75,8 +75,8 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
                         }
                     }
                     is ResponseViewState.Error -> {
-                        response.message.let {
-                            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                        response.let {
+                            Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
                         }
                     }
                     //else -> Toast.makeText(requireContext(), response.message, Toast.LENGTH_SHORT).show()

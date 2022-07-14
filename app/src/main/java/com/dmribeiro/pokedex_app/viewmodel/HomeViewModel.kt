@@ -26,7 +26,7 @@ class HomeViewModel @Inject constructor(
         getAllPokemonUseCase().onSuccess {
             _pokemonResponse.postValue(ResponseViewState.Success(it))
         }.onFailure {
-            _pokemonResponse.postValue(ResponseViewState.Error(it.toString()))
+            _pokemonResponse.postValue(ResponseViewState.Error(it))
         }
     }
 

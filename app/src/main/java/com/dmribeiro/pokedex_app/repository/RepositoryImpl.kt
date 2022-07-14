@@ -7,11 +7,7 @@ import com.dmribeiro.pokedex_app.model.toDomain
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import javax.inject.Inject
 
-interface Repository {
-    suspend fun getListPokemon(): List<Pokemon>
-}
 
-@ActivityRetainedScoped
 class RepositoryImpl @Inject constructor(
     private val remoteDatasource: RemoteDatasource,
     private val localDataSource: LocalDataSource
@@ -23,11 +19,10 @@ class RepositoryImpl @Inject constructor(
         val response = remoteDatasource.getAllPokemon()
         try {
             if (response.isSuccessful) {
-                val list = response.body()?.pokemonResult
-                list.let { pokemon ->
-                    pokemon?.map {
-                        listOfPokemon.addAll(listOf(it))
-                    }
+                val list = response.body()
+                list?.pokemonResult?.map { data ->
+                    val pokemon = getPokemon(data.name)
+                    listOfPokemon.addAll(listOf(pokemon))
                 }
             } else {
                 Log.d("*Response", response.errorBody().toString())
@@ -36,5 +31,18 @@ class RepositoryImpl @Inject constructor(
             throw exception
         }
         return listOfPokemon
+    }
+
+    override suspend fun getPokemon(name: String): Pokemon {
+        val response = remoteDatasource.getPokemon(name)
+        var pokemon: Pokemon? = null
+        try {
+            if (response.isSuccessful){
+                pokemon = response.body()!!.toDomain()
+            }
+        }catch (exception: Exception){
+            throw exception
+        }
+        return pokemon!!
     }
 }

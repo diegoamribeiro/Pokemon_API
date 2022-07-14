@@ -3,6 +3,7 @@ package com.dmribeiro.pokedex_app.model
 
 import com.dmribeiro.pokedex_app.domain.Pokemon
 import com.dmribeiro.pokedex_app.utils.Constants
+import com.dmribeiro.pokedex_app.utils.Constants.IMAGE_URL
 import com.google.gson.annotations.SerializedName
 
 data class PokemonEntity(
@@ -23,7 +24,7 @@ data class PokemonEntity(
     @SerializedName("types")
     val types: List<Types>?,
     @SerializedName("sprites")
-    val imageUrl: String
+    val sprites: Sprites,
 )
 
 fun PokemonEntity.toDomain(): Pokemon {
@@ -36,7 +37,7 @@ fun PokemonEntity.toDomain(): Pokemon {
         name = this.name,
         stats = this.stats,
         types = this.types!!,
-        imageUrl = "${Constants.IMAGE_URL}${this.id}.png"
+        imageUrl = this.sprites
     )
 }
 

@@ -3,10 +3,7 @@ package com.dmribeiro.pokedex_app.database
 import androidx.room.TypeConverter
 import com.dmribeiro.pokedex_app.domain.Pokemon
 import com.dmribeiro.pokedex_app.domain.PokemonType
-import com.dmribeiro.pokedex_app.model.Abilities
-import com.dmribeiro.pokedex_app.model.Ability
-import com.dmribeiro.pokedex_app.model.Stats
-import com.dmribeiro.pokedex_app.model.Types
+import com.dmribeiro.pokedex_app.model.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -77,6 +74,17 @@ class PokemonConverter {
     fun fromStringToPokemonType(abilities: String): PokemonType{
         val listType = object: TypeToken<PokemonType>(){}.type
         return gson.fromJson(abilities, listType)
+    }
+
+    @TypeConverter
+    fun fromSpriteToString(sprites: Sprites): String{
+        return gson.toJson(sprites)
+    }
+
+    @TypeConverter
+    fun fromStringToSprite(sprites: String): Sprites{
+        val listType = object: TypeToken<PokemonType>(){}.type
+        return gson.fromJson(sprites, listType)
     }
 
 }
