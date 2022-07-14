@@ -5,7 +5,7 @@ import com.dmribeiro.pokedex_app.domain.Pokemon
 import com.dmribeiro.pokedex_app.utils.Constants
 import com.google.gson.annotations.SerializedName
 
-data class PokeResult(
+data class PokemonEntity(
     @SerializedName("abilities")
     val abilities: List<Abilities>?,
     @SerializedName("base_experience")
@@ -26,7 +26,7 @@ data class PokeResult(
     val imageUrl: String
 )
 
-fun PokeResult.toDomain(): Pokemon {
+fun PokemonEntity.toDomain(): Pokemon {
     return Pokemon(
         abilities = this.abilities,
         baseExperience = this.baseExperience,

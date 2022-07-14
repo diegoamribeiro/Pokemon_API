@@ -1,6 +1,5 @@
 package com.dmribeiro.pokedex_app.di.remote
 
-import com.dmribeiro.pokedex_app.model.PokeResult
 import com.dmribeiro.pokedex_app.model.PokemonResponse
 import com.dmribeiro.pokedex_app.remote.PokemonApiService
 import retrofit2.Response

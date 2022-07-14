@@ -19,7 +19,7 @@ import com.dmribeiro.pokedex_app.R
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
-import com.dmribeiro.pokedex_app.remote.NetworkResponse
+import com.dmribeiro.pokedex_app.remote.ResponseViewState
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -68,13 +68,13 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
             homeViewModel.getAllPokemon()
             homeViewModel.pokemonResponse.observe(viewLifecycleOwner) { response ->
                 when (response) {
-                    is NetworkResponse.Success -> {
+                    is ResponseViewState.Success -> {
                         response.data?.let {
                             homeAdapter.setData(it)
                             Log.d("**Data", it.toString())
                         }
                     }
-                    is NetworkResponse.Error -> {
+                    is ResponseViewState.Error -> {
                         response.message.let {
                             Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
                         }
