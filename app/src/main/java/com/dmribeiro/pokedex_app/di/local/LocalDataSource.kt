@@ -1,20 +1,24 @@
 package com.dmribeiro.pokedex_app.di.local
 
 import com.dmribeiro.pokedex_app.database.PokemonDao
-import com.dmribeiro.pokedex_app.database.PokemonDatabase
 import com.dmribeiro.pokedex_app.domain.Pokemon
 import kotlinx.coroutines.flow.Flow
-import java.lang.reflect.Constructor
 import javax.inject.Inject
 
-class LocalDataSource @Inject constructor (private val pokemonDao: PokemonDao) {
+class LocalDataSource @Inject constructor (
+    private val pokemonDao: PokemonDao
+    ) {
 
-    fun getAllPokemon(): Flow<List<Pokemon>>{
-        return pokemonDao.getAllPokemon()
+    fun getAllLocalPokemon(): List<Pokemon>{
+        return pokemonDao.getAllLocalPokemon()
     }
 
-    suspend fun insertPokemon(pokemon: Pokemon){
+    suspend fun insertPokemon(pokemon: List<Pokemon>){
         pokemonDao.insertPokemon(pokemon)
+    }
+
+    suspend fun deletePokemon(){
+        pokemonDao.deleteAllLocalPokemon()
     }
 
 }

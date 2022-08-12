@@ -130,10 +130,10 @@
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/3f33d46d7031fc56f984ebe2dedb6d66/transformed/jetified-annotation-experimental-1.1.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/5212eb88bdf6efe1d6b5bdbb41ab80d3/transformed/jetified-startup-runtime-1.0.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/5eca10fee7d65c99f9104644920dcf54/transformed/constraintlayout-2.1.4-api.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/transforms-3/2235991fccfd8d6d10442ed1b401b546/transformed/jetified-shimmer-recyclerview-0.4.1-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/467e85961d978ed9f41903c0ea5a0146/transformed/jetified-gson-2.8.5.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/aa9288674ae469a8fff2e7219b057457/transformed/jetified-disklrucache-4.12.0.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/76bc0606df5f3a5bdec4398de56e336b/transformed/jetified-annotations-4.12.0.jar</arg>
-                <arg>$USER_HOME$/.gradle/caches/transforms-3/2235991fccfd8d6d10442ed1b401b546/transformed/jetified-shimmer-recyclerview-0.4.1-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/687d0831977eed555bcb3b9bc813fc03/transformed/jetified-hilt-core-2.40.1.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/ae190c259d3857e47aeb12c740145cf0/transformed/jetified-dagger-2.40.1.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/8ae7e5f4194cd91e9814fb9495336866/transformed/jetified-javax.inject-1.jar</arg>

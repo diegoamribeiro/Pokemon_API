@@ -11,35 +11,35 @@ class PokemonConverter {
     private val gson = Gson()
 
     @TypeConverter
-    fun fromPokemonToString(pokemon: Pokemon): String{
+    fun fromPokemonToString(pokemon: Pokemon): String {
         return gson.toJson(pokemon)
     }
 
     @TypeConverter
-    fun fromStringToPokemon(pokemon: String): Pokemon{
-        val listType = object: TypeToken<Pokemon>(){}.type
+    fun fromStringToPokemon(pokemon: String): Pokemon {
+        val listType = object : TypeToken<Pokemon>() {}.type
         return gson.fromJson(pokemon, listType)
     }
 
     @TypeConverter
-    fun fromAbilityToString(ability: Ability): String{
+    fun fromAbilityToString(ability: Ability): String {
         return gson.toJson(ability)
     }
 
     @TypeConverter
-    fun fromStringToAbility(ability: String): Ability{
-        val listType = object: TypeToken<Ability>(){}.type
+    fun fromStringToAbility(ability: String): Ability {
+        val listType = object : TypeToken<Ability>() {}.type
         return gson.fromJson(ability, listType)
     }
 
     @TypeConverter
-    fun fromAbilitiesToString(abilities: List<Abilities>): String{
+    fun fromAbilitiesToString(abilities: List<Abilities>): String {
         return gson.toJson(abilities)
     }
 
     @TypeConverter
-    fun fromStringToAbilities(abilities: String): List<Abilities>{
-        val listType = object: TypeToken<List<Abilities>>(){}.type
+    fun fromStringToAbilities(abilities: String): List<Abilities> {
+        val listType = object : TypeToken<List<Abilities>>() {}.type
         return gson.fromJson(abilities, listType)
     }
 
@@ -50,40 +50,51 @@ class PokemonConverter {
 
     @TypeConverter
     fun fromStringToTypes(types: String): List<Types> {
-        val listType = object: TypeToken<Types>(){}.type
+        val listType = object : TypeToken<List<Types>>() {}.type
         return gson.fromJson(types, listType)
     }
 
     @TypeConverter
-    fun fromStatsToString(stats: List<Stats>): String {
+    fun fromStatsToListString(stats: List<Stats>): String {
         return gson.toJson(stats)
     }
 
     @TypeConverter
-    fun fromStringToStats(stats: String): List<Stats> {
-        val listType = object: TypeToken<Types>(){}.type
+    fun fromStringToListOfStats(stats: String): List<Stats> {
+        val listType = object : TypeToken<List<Stats>>() {}.type
         return gson.fromJson(stats, listType)
     }
 
     @TypeConverter
-    fun fromPokemonTypeToString(abilities: PokemonType): String{
+    fun fromStatsToString(stats: Stats): String {
+        return gson.toJson(stats)
+    }
+
+    @TypeConverter
+    fun fromStringToStats(stats: String): Stats {
+        val listType = object : TypeToken<Stats>() {}.type
+        return gson.fromJson(stats, listType)
+    }
+
+    @TypeConverter
+    fun fromPokemonTypeToString(abilities: PokemonType): String {
         return gson.toJson(abilities)
     }
 
     @TypeConverter
-    fun fromStringToPokemonType(abilities: String): PokemonType{
-        val listType = object: TypeToken<PokemonType>(){}.type
+    fun fromStringToPokemonType(abilities: String): PokemonType {
+        val listType = object : TypeToken<PokemonType>() {}.type
         return gson.fromJson(abilities, listType)
     }
 
     @TypeConverter
-    fun fromSpriteToString(sprites: Sprites): String{
+    fun fromSpriteToString(sprites: Sprites): String {
         return gson.toJson(sprites)
     }
 
     @TypeConverter
-    fun fromStringToSprite(sprites: String): Sprites{
-        val listType = object: TypeToken<PokemonType>(){}.type
+    fun fromStringToSprite(sprites: String): Sprites {
+        val listType = object : TypeToken<Sprites>() {}.type
         return gson.fromJson(sprites, listType)
     }
 

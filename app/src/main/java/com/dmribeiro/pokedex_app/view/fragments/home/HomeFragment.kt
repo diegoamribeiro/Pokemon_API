@@ -1,6 +1,7 @@
 package com.dmribeiro.pokedex_app.view.fragments.home
 
 import android.annotation.SuppressLint
+import android.opengl.Visibility
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -36,23 +37,23 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
+        setupRecyclerView()
 
         val window: Window = requireActivity().window
         window.statusBarColor = resources.getColor(R.color.template_fire_color)
         val mActivity = (activity as MainActivity).supportActionBar
         mActivity?.setBackgroundDrawable(resources.getDrawable(R.color.template_fire_color, resources.newTheme()))
 
-
         homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
-        binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
 
-        setupRecyclerView()
         requestApiData()
         setHasOptionsMenu(true)
         return binding.root
     }
 
     private fun setupRecyclerView(){
+        binding.rvList.showShimmer()
         recyclerView = binding.rvList
         recyclerView.apply {
             adapter = homeAdapter
@@ -69,6 +70,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
             homeViewModel.pokemonResponse.observe(viewLifecycleOwner) { response ->
                 when (response) {
                     is ResponseViewState.Success -> {
+                        binding.rvList.hideShimmer()
                         response.data?.let {
                             homeAdapter.setData(it)
                             Log.d("**Data", it.toString())
@@ -76,10 +78,13 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
                     }
                     is ResponseViewState.Error -> {
                         response.let {
+                            binding.rvList.hideShimmer()
                             Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
                         }
                     }
-                    //else -> Toast.makeText(requireContext(), response.message, Toast.LENGTH_SHORT).show()
+                    is ResponseViewState.Loading ->{
+                        binding.rvList.showShimmer()
+                    }
                 }
             }
         }

@@ -5,6 +5,8 @@ import com.dmribeiro.pokedex_app.di.local.LocalDataSource
 import com.dmribeiro.pokedex_app.domain.Pokemon
 import com.dmribeiro.pokedex_app.model.toDomain
 import dagger.hilt.android.scopes.ActivityRetainedScoped
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 
@@ -14,22 +16,24 @@ class RepositoryImpl @Inject constructor(
 ) : Repository {
 
 
-    override suspend fun getListPokemon(): List<Pokemon> {
-        val listOfPokemon = arrayListOf<Pokemon>()
-        val response = remoteDatasource.getAllPokemon()
-        try {
-            if (response.isSuccessful) {
-                val list = response.body()
-                list?.pokemonResult?.map { data ->
-                    val pokemon = getPokemon(data.name)
-                    listOfPokemon.addAll(listOf(pokemon))
-                }
-            } else {
-                Log.d("*Response", response.errorBody().toString())
-            }
-        } catch (exception: Exception) {
-            throw exception
+    override suspend fun getAllPokemon(): List<Pokemon> {
+        return if (localDataSource.getAllLocalPokemon().isNullOrEmpty()){
+            getRemotePokemon()
+        }else{
+            localDataSource.getAllLocalPokemon()
         }
+    }
+
+    private suspend fun getRemotePokemon(): List<Pokemon>{
+        val listOfPokemon: List<Pokemon> = remoteDatasource.getAllPokemon().body()!!.pokemonResult.map {
+            getPokemon(it.name)
+        }
+
+        if (listOfPokemon != localDataSource.getAllLocalPokemon()){
+            localDataSource.deletePokemon()
+            localDataSource.insertPokemon(listOfPokemon)
+        }
+
         return listOfPokemon
     }
 
@@ -44,5 +48,9 @@ class RepositoryImpl @Inject constructor(
             throw exception
         }
         return pokemon!!
+    }
+
+    override suspend fun insertPokemon(pokemon: List<Pokemon>) {
+        localDataSource.insertPokemon(pokemon)
     }
 }

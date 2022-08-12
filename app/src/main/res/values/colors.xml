@@ -7,6 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="light_grey">#BABABA</color>
     <color name="black_50_percent_opacity">#80000000</color>
     <color name="black_30_percent_opacity">#4D000000</color>
     <color name="black_20_percent_opacity">#33000000</color>
@@ -14,6 +15,7 @@
 
     <color name="white_50_percent_opacity">#4DFFFFFF</color>
     <color name="white_100_percent_opacity">#00FFFFFF</color>
+    <color name="bg_shimmer">#676767</color>
 
 <!--    https://bulbapedia.bulbagarden.net/wiki/Category:Type_color_templates-->
 

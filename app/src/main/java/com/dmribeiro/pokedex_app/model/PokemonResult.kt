@@ -9,12 +9,3 @@ data class PokemonResult(
     @SerializedName("url")
     val url: String
 )
-
-data class PokemonApiResult(
-    @SerializedName("id")
-    val id: Int,
-    @SerializedName("name")
-    val name: String,
-    @SerializedName("types")
-    val types: List<PokemonTypeSlot>
-)

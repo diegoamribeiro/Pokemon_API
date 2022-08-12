@@ -53,6 +53,10 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
+    // Shimmer RecyclerView
+
+    implementation 'com.todkars:shimmer-recyclerview:0.4.1'
+
     // Serialization
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1"
 
