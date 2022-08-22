@@ -2,9 +2,10 @@
   <library name="Gradle: androidx.test:core-ktx:1.4.0@aar">
     <CLASSES>
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/31088f079337327262f8367b65b1039a/transformed/jetified-core-ktx-1.4.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/768ac57c58ed4ba61bc92b76dd2dccf5/transformed/jetified-core-ktx-1.4.0/AndroidManifest.xml" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/768ac57c58ed4ba61bc92b76dd2dccf5/transformed/jetified-core-ktx-1.4.0/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/768ac57c58ed4ba61bc92b76dd2dccf5/transformed/jetified-core-ktx-1.4.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/d289d64599c96c2ae15c15094c637382/transformed/jetified-core-ktx-1.4.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/d289d64599c96c2ae15c15094c637382/transformed/jetified-core-ktx-1.4.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/d289d64599c96c2ae15c15094c637382/transformed/jetified-core-ktx-1.4.0/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

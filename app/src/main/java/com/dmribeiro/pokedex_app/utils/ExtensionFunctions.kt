@@ -245,6 +245,68 @@ fun setTypeBackground(type: String) : Int{
     }
 }
 
+fun setTypeBackgroundTint(type: String) : String{
+    when(type){
+        IndexType.BUG.typeName ->{
+            return "#A8B820"
+        }
+        IndexType.DARK.typeName ->{
+            return "#705848"
+        }
+        IndexType.DRAGON.typeName ->{
+            return "#7038F8"
+        }
+        IndexType.ELECTRIC.typeName ->{
+            return "#F8D030"
+        }
+        IndexType.FAIRY.typeName ->{
+            return "#EE99AC"
+        }
+        IndexType.FIGHTING.typeName ->{
+            return "#C03028"
+        }
+        IndexType.FIRE.typeName ->{
+            return "#F5AC78"
+        }
+        IndexType.GROUND.typeName ->{
+            return "#E0C068"
+        }
+        IndexType.FLYING.typeName ->{
+            return "#A890F0"
+        }
+        IndexType.GHOST.typeName ->{
+            return "#705898"
+        }
+        IndexType.GRASS.typeName ->{
+            return "#A7DB8D"
+        }
+        IndexType.ICE.typeName ->{
+            return "#98D8D8"
+        }
+        IndexType.NORMAL.typeName ->{
+            return "#A8A878"
+        }
+        IndexType.POISON.typeName ->{
+            return "#A040A0"
+        }
+        IndexType.PSYCHIC.typeName ->{
+            return "#F85888"
+        }
+        IndexType.ROCK.typeName ->{
+            return "#B8A038"
+        }
+        IndexType.STEEL.typeName ->{
+            return "#B8B8D0"
+        }
+        IndexType.WATER.typeName ->{
+            return "#5BC7E5"
+        }
+        else->{
+        return "#A8A878"
+    }
+    }
+}
+
 fun Int.heightFormat() : String{
     val newHeight = this.toString()
     val formatted: String = if (newHeight.length >=2){

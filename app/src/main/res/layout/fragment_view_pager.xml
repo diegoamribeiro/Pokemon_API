@@ -15,10 +15,11 @@
         app:tabSelectedTextColor="@color/normal_color"
         app:tabTextColor="@color/normal_light_color"
         />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/black_50_percent_opacity"/>
+<!--    <View-->
+<!--        android:id="@+id/viewIndicator"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0.5dp"-->
+<!--        android:background="@color/black_50_percent_opacity"/>-->
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/frag_view_pager"
