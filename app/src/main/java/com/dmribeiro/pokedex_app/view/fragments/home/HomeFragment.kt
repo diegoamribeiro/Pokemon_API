@@ -94,7 +94,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.home_fragment_menu, menu)
         val menuSearch = menu.findItem(R.id.menu_search)
-        menuSearch.icon.setTint(resources.getColor(R.color.template_fire_color))
+        menuSearch.icon?.setTint(resources.getColor(R.color.template_fire_color))
         super.onCreateOptionsMenu(menu, inflater)
     }
 
