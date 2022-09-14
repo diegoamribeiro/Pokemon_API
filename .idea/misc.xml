@@ -30,6 +30,7 @@
         <entry key="app/src/main/res/layout/fragment_about.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/fragment_details.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.21" />
+        <entry key="app/src/main/res/layout/fragment_stats.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_view_pager.xml" value="0.21770833333333334" />
         <entry key="app/src/main/res/layout/item_pokemon.xml" value="0.33" />
         <entry key="app/src/main/res/layout/loading_pokemon.xml" value="0.25" />

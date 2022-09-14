@@ -11,4 +11,10 @@
     <string name="weight">Weight</string>
     <string name="xp">XP</string>
     <string name="mock_text">Kadabra</string>
+    <string name="hp">Hp</string>
+    <string name="attack">Attack</string>
+    <string name="defense">Defense</string>
+    <string name="speed">Speed</string>
+    <string name="special_defense">Special \nDefense</string>
+    <string name="special_attack">Special \nAttack</string>
 </resources>
