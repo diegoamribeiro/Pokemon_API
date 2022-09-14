@@ -4,8 +4,8 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/482d1278da8457248bf1c73c37682cac/transformed/jetified-shimmer-0.5.0/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/482d1278da8457248bf1c73c37682cac/transformed/jetified-shimmer-0.5.0/res" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/482d1278da8457248bf1c73c37682cac/transformed/jetified-shimmer-0.5.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/482d1278da8457248bf1c73c37682cac/transformed/jetified-shimmer-0.5.0/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/482d1278da8457248bf1c73c37682cac/transformed/jetified-shimmer-0.5.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>

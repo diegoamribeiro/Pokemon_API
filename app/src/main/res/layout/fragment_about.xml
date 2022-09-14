@@ -66,71 +66,118 @@
             app:layout_constraintVertical_bias="0.0"
             tools:text="Psychic" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/mtvLabelHeight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/guidelineMiddle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mtvHeight"
-            android:text="@string/height" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/mtvLabelWeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
-            app:layout_constraintStart_toStartOf="@id/guidelineStart"
-            app:layout_constraintTop_toBottomOf="@id/mtvWeight"
-            android:text="@string/weight" />
+            android:textColor="@color/light_grey"
+            android:fontFamily="@font/didact_gothic_regular"
+            android:text="@string/weight"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/mtvWeight"
+            app:layout_constraintStart_toStartOf="@+id/mtvWeight"
+            app:layout_constraintTop_toBottomOf="@id/mtvWeight" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/mtvLabelBaseExperience"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guidelineMiddle"
-            app:layout_constraintTop_toBottomOf="@id/mtvBaseExperience"
-            android:text="@string/xp" />
+            android:textColor="@color/light_grey"
+            android:fontFamily="@font/didact_gothic_regular"
+            android:text="@string/xp"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/mtvBaseExperience"
+            app:layout_constraintStart_toStartOf="@+id/mtvBaseExperience"
+            app:layout_constraintTop_toBottomOf="@id/mtvBaseExperience" />
+
+        <ImageView
+            android:id="@+id/ivIconHeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/mtvTypeOne"
+            app:layout_constraintEnd_toEndOf="@+id/mtvHeight"
+            app:layout_constraintStart_toStartOf="@id/mtvHeight"
+            android:layout_marginTop="20dp"
+            android:paddingTop="10dp"
+            android:src="@drawable/ic_height"
+            />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/mtvHeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:textSize="20sp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/didact_gothic_regular"
+            android:layout_marginTop="3dp"
+            android:textAllCaps="true"
             app:layout_constraintEnd_toStartOf="@+id/guidelineMiddle"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mtvTypeOne"
+            app:layout_constraintTop_toBottomOf="@id/ivIconHeight"
             tools:text="@string/about" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mtvLabelHeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/didact_gothic_regular"
+            android:text="@string/height"
+            android:textSize="14sp"
+            android:textColor="@color/light_grey"
+            app:layout_constraintEnd_toEndOf="@+id/mtvHeight"
+            app:layout_constraintStart_toStartOf="@+id/mtvHeight"
+            app:layout_constraintTop_toBottomOf="@id/mtvHeight" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/mtvWeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:textSize="20sp"
+            android:layout_marginTop="8dp"
+            android:textStyle="bold"
+            android:fontFamily="@font/didact_gothic_regular"
+            android:textAllCaps="true"
+            android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
             app:layout_constraintStart_toStartOf="@id/guidelineStart"
-            app:layout_constraintTop_toBottomOf="@id/mtvTypeOne"
+            app:layout_constraintTop_toBottomOf="@id/ivIconWeight"
             tools:text="@string/about" />
+
+        <ImageView
+            android:id="@+id/ivIconWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/mtvTypeOne"
+            app:layout_constraintEnd_toEndOf="@+id/mtvWeight"
+            app:layout_constraintStart_toStartOf="@id/mtvWeight"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_weight_kilogram"
+            />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/mtvBaseExperience"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:textSize="20sp"
+            android:layout_marginTop="8dp"
+            android:textStyle="bold"
+            android:fontFamily="@font/didact_gothic_regular"
+            android:textAllCaps="true"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guidelineMiddle"
-            app:layout_constraintTop_toBottomOf="@id/mtvTypeOne"
+            app:layout_constraintTop_toBottomOf="@id/ivIconXp"
             tools:text="@string/about" />
+
+        <ImageView
+            android:id="@+id/ivIconXp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/mtvTypeOne"
+            app:layout_constraintEnd_toEndOf="@+id/mtvBaseExperience"
+            app:layout_constraintStart_toStartOf="@id/mtvBaseExperience"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_xp"
+            />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/mtvTypeTwo"

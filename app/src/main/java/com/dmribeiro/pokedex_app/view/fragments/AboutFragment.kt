@@ -8,8 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.dmribeiro.pokedex_app.databinding.FragmentAboutBinding
 import com.dmribeiro.pokedex_app.domain.Pokemon
-import com.dmribeiro.pokedex_app.utils.*
-import com.dmribeiro.pokedex_app.utils.setTypeLightColor
+import com.dmribeiro.pokedex_app.utils.setTypeSymbol
+import com.dmribeiro.pokedex_app.utils.heightFormat
+import com.dmribeiro.pokedex_app.utils.convertPoundsToKilogram
 import com.dmribeiro.pokedex_app.view.fragments.details.PokemonListener
 import java.util.*
 
@@ -41,12 +42,12 @@ class AboutFragment(private val currentPokemon: PokemonListener) : Fragment() {
                 Locale.getDefault()) }
         }
 
-        binding.mtvLabelBaseExperience.setTextTypeLightColor(pokemon.types[0].type.name)
-        binding.mtvLabelHeight.setTextTypeLightColor(pokemon.types[0].type.name)
-        binding.mtvLabelWeight.setTextTypeLightColor(pokemon.types[0].type.name)
+//        binding.mtvLabelBaseExperience.setTextTypeLightColor(pokemon.types[0].type.name)
+//        binding.mtvLabelHeight.setTextTypeLightColor(pokemon.types[0].type.name)
+//        binding.mtvLabelWeight.setTextTypeLightColor(pokemon.types[0].type.name)
 
         binding.mtvHeight.text = "${pokemon.height?.heightFormat()}m"
-        binding.mtvWeight.text = "${pokemon.weight}lbs"
+        binding.mtvWeight.text = pokemon.weight?.convertPoundsToKilogram()
         binding.mtvBaseExperience.text =  "${pokemon.baseExperience}"
 
         return binding.root

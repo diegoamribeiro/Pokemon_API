@@ -39,7 +39,7 @@ class ViewPagerFragment(private val currentPokemon: PokemonListener) : Fragment(
         )
         binding.tabLayout.setSelectedTabIndicatorColor(Color.parseColor(setTypeBackgroundTint(currentPokemon.callPokemon().types[0].type.name)))
         //binding.viewIndicator.setBackgroundColor(resources.getColor(setTypeBackground(currentPokemon.callPokemon().types[0].type.name), resources.newTheme()))
-        binding.tabLayout.setTabTextColors(Color.parseColor(setTypeBackgroundTint("#787887")),
+        binding.tabLayout.setTabTextColors(Color.parseColor(setTypeBackgroundTint("#FF018786")),
             Color.parseColor(setTypeBackgroundTint(currentPokemon.callPokemon().types[0].type.name)))
 
         val adapter = ViewPagerAdapter(

@@ -317,6 +317,11 @@ fun Int.heightFormat() : String{
     return formatted
 }
 
+fun Int.convertPoundsToKilogram() : String{
+    val kilogram = this.times(0.454)
+    return kilogram.toInt().toString() + "Kg"
+}
+
 fun MaterialTextView.setTextTypeLightColor(type: String){
     when(type){
         IndexType.GRASS.typeName ->{
