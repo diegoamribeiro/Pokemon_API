@@ -245,6 +245,67 @@ fun setTypeBackground(type: String) : Int{
     }
 }
 
+fun setTypeBackgroundDark(type: String) : Int{
+    when(type){
+        IndexType.GRASS.typeName ->{
+            return R.color.grass_dark_color
+        }
+        IndexType.BUG.typeName ->{
+            return R.color.bug_dark_color
+        }
+        IndexType.DARK.typeName ->{
+            return R.color.dark_dark_color
+        }
+        IndexType.DRAGON.typeName->{
+            return R.color.dragon_dark_color
+        }
+        IndexType.ELECTRIC.typeName ->{
+            return R.color.electric_dark_color
+        }
+        IndexType.FAIRY.typeName ->{
+            return R.color.fairy_dark_color
+        }
+        IndexType.FIGHTING.typeName ->{
+            return R.color.fighting_dark_color
+        }
+        IndexType.FIRE.typeName ->{
+            return R.color.fire_dark_color
+        }
+        IndexType.NORMAL.typeName ->{
+            return R.color.normal_dark_color
+        }
+        IndexType.WATER.typeName ->{
+            return R.color.water_dark_color
+        }
+        IndexType.GHOST.typeName ->{
+            return R.color.ghost_dark_color
+        }
+        IndexType.ICE.typeName ->{
+            return R.color.ice_dark_color
+        }
+        IndexType.PSYCHIC.typeName ->{
+            return R.color.psychic_dark_color
+        }
+        IndexType.ROCK.typeName ->{
+            return R.color.rock_dark_color
+        }
+        IndexType.STEEL.typeName ->{
+            return R.color.steel_dark_color
+        }
+        IndexType.FLYING.typeName ->{
+            return R.color.flying_dark_color
+        }
+        IndexType.GROUND.typeName ->{
+            return R.color.ground_dark_color
+        }
+        IndexType.POISON.typeName ->{
+            return R.color.poison_dark_color
+        }else->{
+        return R.color.normal_color
+    }
+    }
+}
+
 fun setTypeBackgroundTint(type: String) : String{
     when(type){
         IndexType.BUG.typeName ->{
