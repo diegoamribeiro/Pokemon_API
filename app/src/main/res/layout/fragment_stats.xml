@@ -28,6 +28,7 @@
                 android:layout_marginTop="20dp"
                 app:trackThickness="8dp"
                 app:indicatorSize="100dp"
+                app:trackColor="@color/icon_grey_color"
                 android:progress="30"
                 app:trackCornerRadius="8dp"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineStart"
@@ -35,17 +36,29 @@
                 app:layout_constraintTop_toTopOf="@+id/guidelineTop" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/mtvValueHp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="25dp"
+                app:layout_constraintEnd_toEndOf="@+id/progressHp"
+                app:layout_constraintStart_toStartOf="@+id/progressHp"
+                app:layout_constraintTop_toTopOf="@+id/progressHp"
+                tools:text="95" />
+
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/mtvLabelHp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
                 android:fontFamily="@font/didact_gothic_regular"
                 android:text="@string/hp"
                 android:textColor="@color/light_grey"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@+id/progressHp"
+
                 app:layout_constraintEnd_toEndOf="@+id/progressHp"
-                app:layout_constraintStart_toStartOf="@+id/progressHp" />
+                app:layout_constraintStart_toStartOf="@+id/progressHp"
+                app:layout_constraintTop_toBottomOf="@+id/mtvValueHp" />
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/progressAttack"
@@ -54,11 +67,24 @@
                 android:layout_marginTop="20dp"
                 app:trackThickness="8dp"
                 app:indicatorSize="100dp"
+                app:trackColor="@color/light_grey"
                 android:progress="30"
                 app:trackCornerRadius="8dp"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineMiddle"
                 app:layout_constraintStart_toStartOf="@+id/guidelineMiddle"
                 app:layout_constraintTop_toTopOf="@+id/guidelineTop" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/mtvValueAttack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="25dp"
+                app:layout_constraintEnd_toEndOf="@+id/progressAttack"
+                app:layout_constraintStart_toStartOf="@+id/progressAttack"
+                app:layout_constraintTop_toTopOf="@+id/progressAttack"
+                tools:text="95" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/mtvLabelAttack"
@@ -70,7 +96,7 @@
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="@+id/progressAttack"
                 app:layout_constraintStart_toStartOf="@+id/progressAttack"
-                app:layout_constraintTop_toBottomOf="@+id/progressAttack" />
+                app:layout_constraintTop_toBottomOf="@+id/mtvValueAttack" />
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/progressDefense"
@@ -79,11 +105,24 @@
                 android:layout_marginTop="20dp"
                 app:trackThickness="8dp"
                 app:indicatorSize="100dp"
+                app:trackColor="@color/light_grey"
                 android:progress="30"
                 app:trackCornerRadius="8dp"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
                 app:layout_constraintStart_toStartOf="@+id/guidelineEnd"
                 app:layout_constraintTop_toTopOf="@+id/guidelineTop" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/mtvValueDefense"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="25dp"
+                app:layout_constraintEnd_toEndOf="@+id/progressDefense"
+                app:layout_constraintStart_toStartOf="@+id/progressDefense"
+                app:layout_constraintTop_toTopOf="@+id/progressDefense"
+                tools:text="95" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/mtvLabelDefense"
@@ -95,7 +134,7 @@
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="@+id/progressDefense"
                 app:layout_constraintStart_toStartOf="@+id/progressDefense"
-                app:layout_constraintTop_toBottomOf="@+id/progressDefense" />
+                app:layout_constraintTop_toBottomOf="@+id/mtvValueDefense" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelineMiddle"
@@ -129,14 +168,27 @@
                 android:id="@+id/progressSpecialAttack"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="25dp"
                 android:progress="30"
                 app:indicatorSize="100dp"
+                app:trackColor="@color/light_grey"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineStart"
                 app:layout_constraintStart_toStartOf="@+id/guidelineStart"
                 app:layout_constraintTop_toBottomOf="@+id/progressHp"
                 app:trackCornerRadius="8dp"
                 app:trackThickness="8dp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/mtvValueSpecialAttack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="25dp"
+                app:layout_constraintEnd_toEndOf="@+id/progressSpecialAttack"
+                app:layout_constraintStart_toStartOf="@+id/progressSpecialAttack"
+                app:layout_constraintTop_toTopOf="@+id/progressSpecialAttack"
+                tools:text="95" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/mtvLabelSpecialAttack"
@@ -146,24 +198,36 @@
                 android:text="@string/special_attack"
                 android:textAlignment="center"
                 android:textColor="@color/light_grey"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@+id/progressSpecialAttack"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="@+id/progressSpecialAttack"
                 app:layout_constraintStart_toStartOf="@+id/progressSpecialAttack"
-                app:layout_constraintTop_toTopOf="@+id/progressSpecialAttack" />
+                app:layout_constraintTop_toBottomOf="@+id/mtvValueSpecialAttack" />
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/progressSpecialDefense"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="25dp"
                 android:progress="80"
                 app:indicatorSize="100dp"
+                app:trackColor="@color/light_grey"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineMiddle"
                 app:layout_constraintStart_toStartOf="@+id/guidelineMiddle"
                 app:layout_constraintTop_toBottomOf="@+id/progressAttack"
                 app:trackCornerRadius="8dp"
                 app:trackThickness="8dp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/mtvValueSpecialDefense"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="25dp"
+                app:layout_constraintEnd_toEndOf="@+id/progressSpecialDefense"
+                app:layout_constraintStart_toStartOf="@+id/progressSpecialDefense"
+                app:layout_constraintTop_toTopOf="@+id/progressSpecialDefense"
+                tools:text="95" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/mtvLabelSpecialDefense"
@@ -173,23 +237,36 @@
                 android:textAlignment="center"
                 android:text="@string/special_defense"
                 android:textColor="@color/light_grey"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="@+id/progressAttack"
                 app:layout_constraintStart_toStartOf="@+id/progressAttack"
-                app:layout_constraintTop_toBottomOf="@+id/progressSpecialDefense" />
+                app:layout_constraintTop_toBottomOf="@+id/mtvValueSpecialDefense" />
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/progressSpeed"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="25dp"
                 android:progress="30"
                 app:indicatorSize="100dp"
+                app:trackColor="@color/light_grey"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
                 app:layout_constraintStart_toStartOf="@+id/guidelineEnd"
                 app:layout_constraintTop_toBottomOf="@+id/progressDefense"
                 app:trackCornerRadius="8dp"
                 app:trackThickness="8dp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/mtvValueSpeed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="25dp"
+                app:layout_constraintEnd_toEndOf="@+id/progressSpeed"
+                app:layout_constraintStart_toStartOf="@+id/progressSpeed"
+                app:layout_constraintTop_toTopOf="@+id/progressSpeed"
+                tools:text="95" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/mtvLabelSpeed"
@@ -201,7 +278,7 @@
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="@+id/progressDefense"
                 app:layout_constraintStart_toStartOf="@+id/progressDefense"
-                app:layout_constraintTop_toBottomOf="@+id/progressSpeed" />
+                app:layout_constraintTop_toBottomOf="@+id/mtvValueSpeed" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

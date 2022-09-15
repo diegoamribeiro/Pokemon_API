@@ -306,6 +306,68 @@ fun setTypeBackgroundDark(type: String) : Int{
     }
 }
 
+fun setTypeBackgroundTranslucent(type: String) : String{
+    when(type){
+        IndexType.BUG.typeName ->{
+                return "#80C6D16E"
+            }
+            IndexType.DARK.typeName ->{
+                return "#80A29288"
+            }
+            IndexType.DRAGON.typeName ->{
+                return "#80A27DFA"
+            }
+            IndexType.ELECTRIC.typeName ->{
+                return "#80FAE078"
+            }
+            IndexType.FAIRY.typeName ->{
+                return "#80F4BDC9"
+            }
+            IndexType.FIGHTING.typeName ->{
+                return "#80D67873"
+            }
+            IndexType.FIRE.typeName ->{
+                return "#80F5AC78"
+            }
+            IndexType.GROUND.typeName ->{
+                return "#80EBD69D"
+            }
+            IndexType.FLYING.typeName ->{
+                return "#80C6B7F5"
+            }
+            IndexType.GHOST.typeName ->{
+                return "#80A292BC"
+            }
+            IndexType.GRASS.typeName ->{
+                return "#80A7DB8D"
+            }
+            IndexType.ICE.typeName ->{
+                return "#80BCE6E6"
+            }
+            IndexType.NORMAL.typeName ->{
+                return "#80C6C6A7"
+            }
+            IndexType.POISON.typeName ->{
+                return "#80C183C1"
+            }
+            IndexType.PSYCHIC.typeName ->{
+                return "#80FA92B2"
+            }
+            IndexType.ROCK.typeName ->{
+                return "#80D1C17D"
+            }
+            IndexType.STEEL.typeName ->{
+                return "#80D1D1E0"
+            }
+            IndexType.WATER.typeName ->{
+                return "#8094DBEE"
+            }
+            else-> {
+                return "#80C6C6A7"
+            }
+    }
+}
+
 fun setTypeBackgroundTint(type: String) : String{
     when(type){
         IndexType.BUG.typeName ->{

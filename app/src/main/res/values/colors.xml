@@ -22,7 +22,48 @@
 
 <!--    https://bulbapedia.bulbagarden.net/wiki/Category:Type_color_templates-->
 
-<!--    Type Colors   -->
+    <!--    Translucent Colors-->
+
+    <color name="bug_translucent_color">#80C6D16E</color>
+
+    <color name="dark_translucent_color">#80A29288</color>
+
+    <color name="dragon_translucent_color">#80A27DFA</color>
+
+    <color name="electric_translucent_color">#80FAE078</color>
+
+    <color name="fairy_translucent_color">#80F4BDC9</color>
+
+    <color name="fighting_translucent_color">#80D67873</color>
+
+    <color name="fire_translucent_color">#80F5AC78</color>
+
+    <color name="ground_translucent_color">#80EBD69D</color>
+
+    <color name="template_translucent_color">#80EC8484</color>
+
+    <color name="flying_translucent_color">#80C6B7F5</color>
+
+    <color name="ghost_translucent_color">#80A292BC</color>
+
+    <color name="grass_translucent_color">#80A7DB8D</color>
+
+    <color name="ice_translucent_color">#80BCE6E6</color>
+
+    <color name="normal_translucent_color">#80C6C6A7</color>
+
+    <color name="poison_translucent_color">#80C183C1</color>
+
+    <color name="psychic_translucent_color">#80FA92B2</color>
+
+    <color name="rock_translucent_color">#80D1C17D</color>
+
+    <color name="steel_translucent_color">#80D1D1E0</color>
+
+    <color name="water_translucent_color">#8094DBEE</color>
+
+<!--    Normal Colors-->
+
     <color name="bug_color">#A8B820</color>
     <color name="bug_dark_color">#6D7815</color>
     <color name="bug_light_color">#C6D16E</color>
@@ -98,5 +139,6 @@
     <color name="water_color">#5BC7E5</color>
     <color name="water_dark_color">#3B8295</color>
     <color name="water_light_color">#94DBEE</color>
+
 
 </resources>
