@@ -1,5 +1,6 @@
 package com.dmribeiro.pokedex_app.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.dmribeiro.pokedex_app.domain.Pokemon
 import kotlinx.coroutines.flow.Flow
@@ -15,5 +16,8 @@ interface PokemonDao {
 
     @Query("DELETE FROM POKEMON_TABLE")
     fun deleteAllLocalPokemon()
+
+    @Query("SELECT * FROM POKEMON_TABLE WHERE name LIKE :searchQuery")
+    fun searchDatabase(searchQuery: String): LiveData<List<Pokemon>>
 
 }

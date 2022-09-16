@@ -1,11 +1,14 @@
 package com.dmribeiro.pokedex_app.viewmodel
 
 
+import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dmribeiro.pokedex_app.domain.Pokemon
 import com.dmribeiro.pokedex_app.domain.usecase.GetAllPokemonUseCase
+import com.dmribeiro.pokedex_app.domain.usecase.SearchPokemonUseCase
 import com.dmribeiro.pokedex_app.model.PokemonResponse
 import com.dmribeiro.pokedex_app.remote.ResponseViewState
 import com.dmribeiro.pokedex_app.repository.UserPreferencesRepository
@@ -19,12 +22,14 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getAllPokemonUseCase: GetAllPokemonUseCase,
-    private val preferencesRepository: UserPreferencesRepository,
-): ViewModel() {
+    private val searchPokemonUseCase: SearchPokemonUseCase
+) : ViewModel() {
 
     private val _pokemonResponse = MutableLiveData<ResponseViewState<List<Pokemon>>>()
-    val pokemonResponse: MutableLiveData<ResponseViewState<List<Pokemon>>> = _pokemonResponse
-    val scrollPosition = preferencesRepository.scrollPositionFlow
+    val pokemonResponse: LiveData<ResponseViewState<List<Pokemon>>> = _pokemonResponse
+
+    private val _searchPokemon = MutableLiveData<LiveData<List<Pokemon>>>()
+    val searchPokemon: LiveData<LiveData<List<Pokemon>>> = _searchPokemon
 
     fun getAllPokemon() = viewModelScope.launch(Dispatchers.IO) {
         _pokemonResponse.postValue(ResponseViewState.Loading())
@@ -35,34 +40,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun saveScrollPosition(scrollPosition: Int){
-        viewModelScope.launch(Dispatchers.IO) {
-            preferencesRepository.saveUserData(scrollPosition)
-        }
+    fun searchPokemon(pokemon: String) : LiveData<List<Pokemon>> {
+            return searchPokemonUseCase.searchPokemonFromDatabase(pokemon)
     }
-
-    suspend fun getScrollPosition() : Int {
-        return scrollPosition.first()
-    }
-
-//    val pokemonApiResult = repository.remote.getPokemon(number)
-
-//    private suspend fun getAllSafePokemon() {
-//        //pokemon.postValue(NetworkResponse.Loading())
-//        val response = repository.remote.getAllPokemon()
-//        val pokemons = response.body()
-//        val list = arrayListOf<Pokemon>()
-//        for (p in pokemons!!.pokemonResult){
-//            val one = getOnePokemon(p.name)
-//            list.add(one)
-//        }
-//        pokemon.postValue(list)
-//    }
-//
-//    private suspend fun getOnePokemon(name: String) : Pokemon{
-//        val response = repository.remote.getPokemon(name)
-//        return response.body()!!
-//    }
-
-
 }

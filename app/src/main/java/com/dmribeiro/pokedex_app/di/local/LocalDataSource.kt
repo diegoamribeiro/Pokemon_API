@@ -1,5 +1,6 @@
 package com.dmribeiro.pokedex_app.di.local
 
+import androidx.lifecycle.LiveData
 import com.dmribeiro.pokedex_app.database.PokemonDao
 import com.dmribeiro.pokedex_app.domain.Pokemon
 import kotlinx.coroutines.flow.Flow
@@ -17,8 +18,12 @@ class LocalDataSource @Inject constructor (
         pokemonDao.insertPokemon(pokemon)
     }
 
-    suspend fun deletePokemon(){
+    fun deletePokemon(){
         pokemonDao.deleteAllLocalPokemon()
+    }
+
+    fun searchPokemon(pokemon: String) : LiveData<List<Pokemon>>{
+        return pokemonDao.searchDatabase(pokemon)
     }
 
 }

@@ -1,6 +1,7 @@
 package com.dmribeiro.pokedex_app.repository
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import com.dmribeiro.pokedex_app.di.local.LocalDataSource
 import com.dmribeiro.pokedex_app.domain.Pokemon
 import com.dmribeiro.pokedex_app.model.toDomain
@@ -24,17 +25,18 @@ class RepositoryImpl @Inject constructor(
         }
     }
 
-    private suspend fun getRemotePokemon(): List<Pokemon>{
+    private suspend fun getRemotePokemon(): List<Pokemon> {
         val listOfPokemon: List<Pokemon> = remoteDatasource.getAllPokemon().body()!!.pokemonResult.map {
             getPokemon(it.name)
         }
 
-        if (listOfPokemon != localDataSource.getAllLocalPokemon()){
+        val localData = localDataSource.getAllLocalPokemon()
+        if (listOfPokemon.size != localData.size){
             localDataSource.deletePokemon()
             localDataSource.insertPokemon(listOfPokemon)
         }
 
-        return listOfPokemon
+        return localDataSource.getAllLocalPokemon()
     }
 
     override suspend fun getPokemon(name: String): Pokemon {
@@ -53,4 +55,9 @@ class RepositoryImpl @Inject constructor(
     override suspend fun insertPokemon(pokemon: List<Pokemon>) {
         localDataSource.insertPokemon(pokemon)
     }
+
+    override fun searchPokemon(pokemon: String): LiveData<List<Pokemon>> {
+        return localDataSource.searchPokemon(pokemon)
+    }
+
 }

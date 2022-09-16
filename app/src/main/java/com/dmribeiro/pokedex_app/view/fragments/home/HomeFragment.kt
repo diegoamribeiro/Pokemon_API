@@ -2,9 +2,7 @@ package com.dmribeiro.pokedex_app.view.fragments.home
 
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
-import android.opengl.Visibility
 import android.os.Bundle
-import android.preference.PreferenceManager.getDefaultSharedPreferences
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,10 +19,9 @@ import com.dmribeiro.pokedex_app.MainActivity
 import com.dmribeiro.pokedex_app.R
 import android.view.LayoutInflater
 import android.widget.Toast
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.PreferenceManager.getDefaultSharedPreferences
 import com.dmribeiro.pokedex_app.remote.ResponseViewState
-import com.dmribeiro.pokedex_app.repository.UserPreferencesRepository
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -33,9 +30,9 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var homeViewModel: HomeViewModel
-    private lateinit var mLayoutManager: GridLayoutManager
     private var lastPosition: Int = 0
     private val homeAdapter: PokemonHomeAdapter by lazy { PokemonHomeAdapter() }
+    private lateinit var mLayoutManager: GridLayoutManager
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreateView(
@@ -45,40 +42,50 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         val window: Window = requireActivity().window
         window.statusBarColor = resources.getColor(R.color.template_fire_color)
         val mActivity = (activity as MainActivity).supportActionBar
-        mActivity?.setBackgroundDrawable(resources.getDrawable(R.color.template_fire_color, resources.newTheme()))
-        mLayoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
-
-        binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
-
+        mActivity?.setBackgroundDrawable(
+            resources.getDrawable(
+                R.color.template_fire_color,
+                resources.newTheme()
+            )
+        )
         homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
+        binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
+        mLayoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+        recyclerView = binding.rvList
         binding.rvList.showShimmer()
         requestApiData()
-        setupRecyclerView()
         setHasOptionsMenu(true)
         return binding.root
     }
 
-    private fun setupRecyclerView(){
-        recyclerView = binding.rvList
+    override fun onResume() {
+        super.onResume()
+        setupRecyclerView()
+        //recyclerView.scrollToPosition(lastPosition)
+        //Log.d("***PositionOnResume -> ", lastPosition.toString())
+    }
+
+    private fun setupRecyclerView() {
         recyclerView.apply {
             adapter = homeAdapter
             layoutManager = mLayoutManager
             itemAnimator = SlideInUpAnimator().apply {
                 addDuration = 300
             }
-            addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
                     lastPosition = mLayoutManager.findFirstCompletelyVisibleItemPosition()
                 }
             })
-            //homeViewModel.saveScrollPosition(lastPosition)
             val getPreferences: SharedPreferences = getDefaultSharedPreferences(requireContext())
-            lastPosition = getPreferences.getInt("lastPosition", 0)
+            lastPosition = getPreferences.getInt("lastPosition", lastPosition)
+            //scrollToPosition(lastPosition)
+            Log.d("***PositionOnResume -> ", lastPosition.toString())
         }
     }
 
-    private fun requestApiData(){
+    private fun requestApiData() {
         lifecycleScope.launch {
             homeViewModel.getAllPokemon()
             homeViewModel.pokemonResponse.observe(viewLifecycleOwner) { response ->
@@ -89,48 +96,21 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
                             homeAdapter.setData(it)
                             Log.d("**Data", it.toString())
                         }
+                        recyclerView.scrollToPosition(lastPosition)
                     }
                     is ResponseViewState.Error -> {
                         response.let {
                             binding.rvList.hideShimmer()
-                            Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT)
+                                .show()
                         }
                     }
-                    is ResponseViewState.Loading ->{
+                    is ResponseViewState.Loading -> {
                         binding.rvList.showShimmer()
                     }
                 }
             }
         }
-    }
-
-//    private fun searChThroughDatabase(query: String){
-//        val searchQuery = "%$query%"
-//        homeViewModel.searchDatabase(searchQuery).observe(this, {list->
-//            list?.let {
-//                mAdapter.setData(it)
-//            }
-//        })
-//    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.home_fragment_menu, menu)
-        val menuSearch = menu.findItem(R.id.menu_search)
-        menuSearch.icon?.setTint(resources.getColor(R.color.template_fire_color))
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun onQueryTextChange(newText: String?): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        recyclerView.scrollToPosition(lastPosition)
     }
 
     override fun onPause() {
@@ -139,24 +119,47 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         val editor: SharedPreferences.Editor = preferences.edit()
         editor.putInt("lastPosition", lastPosition)
         editor.apply()
-//        lifecycleScope.launch {
-//            recyclerView.scrollToPosition(homeViewModel.getScrollPosition())
-//            Log.d("***ScrollPosition -> ", homeViewModel.getScrollPosition().toString())
-//        }
-
+        Log.d("***PositionOnPause -> ", lastPosition.toString())
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
         val preferences: SharedPreferences = getDefaultSharedPreferences(requireContext())
         val editor: SharedPreferences.Editor = preferences.edit()
         editor.putInt("lastPosition", 0)
         editor.apply()
-        //val preferences = UserPreferencesRepository(requireContext())
-//        lifecycleScope.launch {
-//            preferences.deleteAllData()
-//            recyclerView.scrollToPosition(homeViewModel.getScrollPosition())
-//        }
+        Log.d("***PositionOnDestroy -> ", lastPosition.toString())
+    }
+
+    private fun searchThroughDatabase(pokemon: String) {
+        val searchQuery = "%$pokemon%"
+        homeViewModel.searchPokemon(searchQuery).observe(this) { list ->
+            homeAdapter.setData(list)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.home_fragment_menu, menu)
+        val menuSearch = menu.findItem(R.id.menu_search)
+        val searchView = menuSearch.actionView as? SearchView
+        searchView?.isSubmitButtonEnabled = true
+        searchView?.setOnQueryTextListener(this)
+        //menuSearch.icon?.setTint(resources.getColor(R.color.template_fire_color))
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if (query != null) {
+            searchThroughDatabase(query)
+        }
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if (newText != null) {
+            searchThroughDatabase(newText)
+        }
+        return true
     }
 
 }
