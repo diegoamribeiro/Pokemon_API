@@ -3,7 +3,6 @@ package com.dmribeiro.pokedex_app.view.fragments
 import android.animation.ValueAnimator
 import android.graphics.Color
 import android.os.Bundle
-import android.provider.CalendarContract
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,11 +14,9 @@ import com.dmribeiro.pokedex_app.databinding.FragmentStatsBinding
 import com.dmribeiro.pokedex_app.domain.Pokemon
 import com.dmribeiro.pokedex_app.model.Stats
 import com.dmribeiro.pokedex_app.utils.setTypeBackgroundDark
-import com.dmribeiro.pokedex_app.utils.setTypeBackgroundTint
 import com.dmribeiro.pokedex_app.utils.setTypeBackgroundTranslucent
 import com.dmribeiro.pokedex_app.view.fragments.details.PokemonListener
 import com.google.android.material.textview.MaterialTextView
-import java.text.FieldPosition
 
 
 class StatsFragment(val currentPokemon: PokemonListener) : Fragment() {
@@ -34,7 +31,6 @@ class StatsFragment(val currentPokemon: PokemonListener) : Fragment() {
         // Inflate the layout for this fragment
         statsBinding = FragmentStatsBinding.inflate(layoutInflater)
         pokemon = currentPokemon.callPokemon()
-        Log.d("***Stats", "$$$ - $pokemon")
         setStatsColors(pokemon!!.types[0].type.name)
         setStatsValues(pokemon?.stats!!)
         setProgressValues(pokemon?.stats!!)

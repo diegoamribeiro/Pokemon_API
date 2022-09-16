@@ -143,7 +143,7 @@ fun ImageView.setTypeSymbol(type: String){
             this.setImageDrawable(resources.getDrawable(R.drawable.electric, resources.newTheme()))
         }
         IndexType.FAIRY.typeName ->{
-            this.setImageDrawable(resources.getDrawable(R.drawable.grass, resources.newTheme()))
+            this.setImageDrawable(resources.getDrawable(R.drawable.fairy, resources.newTheme()))
         }
         IndexType.FIGHTING.typeName ->{
             this.setImageDrawable(resources.getDrawable(R.drawable.fighting, resources.newTheme()))
@@ -443,6 +443,14 @@ fun Int.heightFormat() : String{
 fun Int.convertPoundsToKilogram() : String{
     val kilogram = this.times(0.454)
     return kilogram.toInt().toString() + "Kg"
+}
+
+fun View.visible(){
+    this.visibility = View.VISIBLE
+}
+
+fun View.gone(){
+    this.visibility = View.GONE
 }
 
 fun MaterialTextView.setTextTypeLightColor(type: String){

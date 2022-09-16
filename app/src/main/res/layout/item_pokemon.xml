@@ -39,13 +39,14 @@
             tools:text="@string/mock_text"/>
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/mtvType"
+            android:id="@+id/mtvTypeSt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:background="@drawable/bg_type_name"
             android:shadowDx="2"
             android:shadowDy="2"
+            android:textStyle=""
             android:shadowColor="@color/black_20_percent_opacity"
             android:shadowRadius="2"
             android:paddingHorizontal="10dp"
@@ -54,6 +55,26 @@
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="@+id/mtvName"
             app:layout_constraintTop_toBottomOf="@id/mtvName"
+            tools:text="Psychic" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mtvTypeNd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/bg_type_name"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:textStyle=""
+            android:shadowColor="@color/black_20_percent_opacity"
+            android:shadowRadius="2"
+            android:paddingHorizontal="10dp"
+            android:paddingBottom="1dp"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/mtvTypeSt"
+            app:layout_constraintTop_toBottomOf="@id/mtvTypeSt"
+            app:layout_constraintEnd_toEndOf="@+id/mtvTypeSt"
             tools:text="Psychic" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -71,7 +92,7 @@
             android:textSize="14sp"
             android:fontFamily="@font/didact_gothic"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/mtvType"
+            app:layout_constraintStart_toStartOf="@+id/mtvTypeSt"
             tools:text="#1" />
 
         <ImageView

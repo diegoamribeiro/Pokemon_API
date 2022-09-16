@@ -26,10 +26,10 @@
     <style name="ShapeAppearanceOverlay.MaterialCardView.Cut" parent="CardView">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">20%</item>
-        <item name="cornerSizeTopLeft">10%</item>
-        <item name="cornerSizeTopRight">10%</item>
-        <item name="cornerSizeBottomLeft">0%</item>
-        <item name="cornerSizeBottomRight">0%</item>
+        <item name="cornerSizeTopLeft">8%</item>
+        <item name="cornerSizeTopRight">8%</item>
+        <item name="cornerSizeBottomLeft">4%</item>
+        <item name="cornerSizeBottomRight">4%</item>
 <!--<item name="cornerFamilyBottomRight">rounded</item>-->
     </style>
 

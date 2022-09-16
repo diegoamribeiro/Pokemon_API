@@ -11,6 +11,7 @@
     <color name="black_50_percent_opacity">#80000000</color>
     <color name="black_30_percent_opacity">#4D000000</color>
     <color name="black_20_percent_opacity">#33000000</color>
+    <color name="white_20_percent_opacity">#33FFFFFF</color>
     <color name="black_10_percent_opacity">#1A000000</color>
 
     <color name="white_50_percent_opacity">#4DFFFFFF</color>

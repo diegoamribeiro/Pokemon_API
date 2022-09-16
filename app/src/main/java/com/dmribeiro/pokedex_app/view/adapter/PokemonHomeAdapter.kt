@@ -10,6 +10,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.dmribeiro.pokedex_app.databinding.ItemPokemonBinding
 import com.dmribeiro.pokedex_app.domain.Pokemon
 import com.dmribeiro.pokedex_app.utils.DiffUtilGeneric
+import com.dmribeiro.pokedex_app.utils.gone
 import com.dmribeiro.pokedex_app.utils.setTypeLightColor
 import com.dmribeiro.pokedex_app.view.fragments.home.HomeFragmentDirections
 import java.util.*
@@ -29,8 +30,10 @@ class PokemonHomeAdapter : RecyclerView.Adapter<PokemonHomeAdapter.HomeViewHolde
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         holder.binding.apply {
+
             mtvName.text = pokemonList[position].name.replaceFirstChar { it.uppercase(Locale.getDefault()) }
-            mtvType.text = pokemonList[position].types[0].type.name.replaceFirstChar { it.uppercase(Locale.getDefault()) }
+            mtvTypeSt.text = pokemonList[position].types[0].type.name.replaceFirstChar { it.uppercase(Locale.getDefault()) }
+            mtvTypeNd.text = if (pokemonList[position].types.size > 1 ) pokemonList[position].types[1].type.name.replaceFirstChar { it.uppercase(Locale.getDefault()) } else ""
             mtvNumber.text = "#${pokemonList[position].number.toString().padStart(3,'0')}"
             cardViewType.setTypeLightColor(pokemonList[position].types[0].type.name)
 
@@ -38,6 +41,10 @@ class PokemonHomeAdapter : RecyclerView.Adapter<PokemonHomeAdapter.HomeViewHolde
                 .load(pokemonList[position].imageUrl.other.officialArt.frontDefault)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(ivPokemon)
+
+            if (mtvTypeNd.text.isNullOrEmpty()){
+                mtvTypeNd.gone()
+            }
         }
 
         holder.itemView.setOnClickListener {
