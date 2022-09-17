@@ -19,13 +19,16 @@ import com.dmribeiro.pokedex_app.MainActivity
 import com.dmribeiro.pokedex_app.R
 import android.view.LayoutInflater
 import android.widget.Toast
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager.getDefaultSharedPreferences
 import com.dmribeiro.pokedex_app.remote.ResponseViewState
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
+class HomeFragment : Fragment(), SearchView.OnQueryTextListener, MenuProvider {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var recyclerView: RecyclerView
@@ -53,16 +56,28 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         mLayoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
         recyclerView = binding.rvList
         binding.rvList.showShimmer()
-        requestApiData()
-        setHasOptionsMenu(true)
+        setupRecyclerView()
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        setupRecyclerView()
-        //recyclerView.scrollToPosition(lastPosition)
-        //Log.d("***PositionOnResume -> ", lastPosition.toString())
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.home_fragment_menu, menu)
+        val search = menu.findItem(R.id.menu_search)
+        val searchView = search.actionView as? SearchView
+        searchView?.isSubmitButtonEnabled = true
+        searchView?.setOnQueryTextListener(this)
+        search.icon?.setTint(resources.getColor(R.color.template_fire_color))
+        requestApiData()
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return true
     }
 
     private fun setupRecyclerView() {
@@ -80,7 +95,6 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
             })
             val getPreferences: SharedPreferences = getDefaultSharedPreferences(requireContext())
             lastPosition = getPreferences.getInt("lastPosition", lastPosition)
-            //scrollToPosition(lastPosition)
             Log.d("***PositionOnResume -> ", lastPosition.toString())
         }
     }
@@ -136,16 +150,6 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         homeViewModel.searchPokemon(searchQuery).observe(this) { list ->
             homeAdapter.setData(list)
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.home_fragment_menu, menu)
-        val menuSearch = menu.findItem(R.id.menu_search)
-        val searchView = menuSearch.actionView as? SearchView
-        searchView?.isSubmitButtonEnabled = true
-        searchView?.setOnQueryTextListener(this)
-        //menuSearch.icon?.setTint(resources.getColor(R.color.template_fire_color))
-        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
