@@ -81,9 +81,8 @@
                 android:contentDescription="@string/imagepokemon"
                 android:elevation="11dp"
                 app:layout_constraintBottom_toBottomOf="@+id/ivPokeball"
-                app:layout_constraintEnd_toEndOf="@+id/cardDetails"
-                app:layout_constraintHorizontal_bias="0.63"
-                app:layout_constraintStart_toStartOf="@+id/cardDetails"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/ivPokeball"
                 app:layout_constraintVertical_bias="0.3"
                 tools:src="@drawable/kadabra" />
@@ -96,7 +95,6 @@
                 android:layout_marginStart="22dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="22dp"
-                android:layout_marginBottom="10dp"
                 android:fitsSystemWindows="false"
                 android:foregroundGravity="center_vertical"
                 app:cardElevation="10dp"
@@ -110,7 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="60dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="30dp"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"></FrameLayout>
             </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
