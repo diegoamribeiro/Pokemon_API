@@ -30,7 +30,8 @@
             app:layout_constraintEnd_toStartOf="@+id/ivTypeTwo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guidelineTop"
-            tools:src="@drawable/normal" />
+            tools:src="@drawable/normal"
+            tools:visibility="visible"/>
 
         <ImageView
             android:id="@+id/ivTypeTwo"
@@ -42,7 +43,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivTypeOne"
             app:layout_constraintTop_toTopOf="@+id/guidelineTop"
-            tools:src="@drawable/normal" />
+            tools:src="@drawable/normal"
+            tools:visibility="visible"
+            />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/mtvTypeOne"
@@ -50,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_margin="16dp"
-            android:background="@drawable/bg_type_name"
+            android:background="@drawable/bg_type_name_dark"
             android:paddingHorizontal="10dp"
             android:paddingBottom="1dp"
             android:shadowColor="@color/black_20_percent_opacity"
@@ -185,7 +188,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_margin="16dp"
-            android:background="@drawable/bg_type_name"
+            android:background="@drawable/bg_type_name_dark"
             android:paddingHorizontal="10dp"
             android:paddingBottom="1dp"
             android:shadowColor="@color/black_20_percent_opacity"

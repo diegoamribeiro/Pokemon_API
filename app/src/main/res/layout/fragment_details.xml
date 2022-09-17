@@ -89,7 +89,7 @@
                 android:id="@+id/cardDetails"
                 style="@style/CardViewStyle"
                 android:layout_width="0dp"
-                android:layout_height="450dp"
+                android:layout_height="480dp"
                 android:layout_marginTop="-50dp"
                 android:layout_marginStart="22dp"
                 android:layout_marginEnd="22dp"
