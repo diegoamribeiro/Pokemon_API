@@ -430,6 +430,67 @@ fun setTypeBackgroundTint(type: String) : String{
     }
 }
 
+fun setTypeBackgroundLight(type: String) : Int{
+    when(type){
+        IndexType.GRASS.typeName ->{
+            return R.color.grass_translucent_color
+        }
+        IndexType.BUG.typeName ->{
+            return R.color.bug_translucent_color
+        }
+        IndexType.DARK.typeName ->{
+            return R.color.dark_translucent_color
+        }
+        IndexType.DRAGON.typeName->{
+            return R.color.dragon_translucent_color
+        }
+        IndexType.ELECTRIC.typeName ->{
+            return R.color.electric_translucent_color
+        }
+        IndexType.FAIRY.typeName ->{
+            return R.color.fairy_translucent_color
+        }
+        IndexType.FIGHTING.typeName ->{
+            return R.color.fighting_translucent_color
+        }
+        IndexType.FIRE.typeName ->{
+            return R.color.fire_translucent_color
+        }
+        IndexType.NORMAL.typeName ->{
+            return R.color.normal_translucent_color
+        }
+        IndexType.WATER.typeName ->{
+            return R.color.water_translucent_color
+        }
+        IndexType.GHOST.typeName ->{
+            return R.color.ghost_translucent_color
+        }
+        IndexType.ICE.typeName ->{
+            return R.color.ice_translucent_color
+        }
+        IndexType.PSYCHIC.typeName ->{
+            return R.color.psychic_translucent_color
+        }
+        IndexType.ROCK.typeName ->{
+            return R.color.rock_translucent_color
+        }
+        IndexType.STEEL.typeName ->{
+            return R.color.steel_translucent_color
+        }
+        IndexType.FLYING.typeName ->{
+            return R.color.flying_translucent_color
+        }
+        IndexType.GROUND.typeName ->{
+            return R.color.ground_translucent_color
+        }
+        IndexType.POISON.typeName ->{
+            return R.color.poison_translucent_color
+        }else->{
+        return R.color.normal_translucent_color
+    }
+    }
+}
+
 fun Int.heightFormat() : String{
     val newHeight = this.toString()
     val formatted: String = if (newHeight.length >=2){
