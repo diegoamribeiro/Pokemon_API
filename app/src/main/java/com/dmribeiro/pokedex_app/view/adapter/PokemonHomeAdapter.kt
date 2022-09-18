@@ -31,9 +31,14 @@ class PokemonHomeAdapter : RecyclerView.Adapter<PokemonHomeAdapter.HomeViewHolde
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         holder.binding.apply {
 
+            if (pokemonList[position].types.size > 1 ){
+                mtvTypeNd.text = pokemonList[position].types[1].type.name.replaceFirstChar { it.uppercase(Locale.getDefault()) }
+            }else{
+                mtvTypeNd.gone()
+            }
+
             mtvName.text = pokemonList[position].name.replaceFirstChar { it.uppercase(Locale.getDefault()) }
             mtvTypeSt.text = pokemonList[position].types[0].type.name.replaceFirstChar { it.uppercase(Locale.getDefault()) }
-            mtvTypeNd.text = if (pokemonList[position].types.size > 1 ) pokemonList[position].types[1].type.name.replaceFirstChar { it.uppercase(Locale.getDefault()) } else ""
             mtvNumber.text = "#${pokemonList[position].number.toString().padStart(3,'0')}"
             cardViewType.setTypeLightColor(pokemonList[position].types[0].type.name)
 
@@ -41,10 +46,6 @@ class PokemonHomeAdapter : RecyclerView.Adapter<PokemonHomeAdapter.HomeViewHolde
                 .load(pokemonList[position].imageUrl.other.officialArt.frontDefault)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(ivPokemon)
-
-            if (mtvTypeNd.text.isNullOrEmpty()){
-                mtvTypeNd.gone()
-            }
         }
 
         holder.itemView.setOnClickListener {
