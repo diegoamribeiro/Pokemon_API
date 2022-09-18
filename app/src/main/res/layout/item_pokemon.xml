@@ -62,8 +62,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:background="@drawable/bg_type_name"
-            android:paddingBottom="1dp"
             android:gravity="center"
+            android:paddingBottom="1dp"
+            android:paddingHorizontal="12dp"
             android:shadowColor="@color/black_20_percent_opacity"
             android:shadowDx="2"
             android:shadowDy="2"
@@ -71,7 +72,6 @@
             android:textColor="@color/white"
             android:textSize="12sp"
             android:textStyle=""
-            app:layout_constraintEnd_toEndOf="@+id/mtvTypeSt"
             app:layout_constraintStart_toStartOf="@+id/mtvTypeSt"
             app:layout_constraintTop_toBottomOf="@id/mtvTypeSt"
             tools:text="Grass" />
