@@ -98,4 +98,15 @@ class PokemonConverter {
         return gson.fromJson(sprites, listType)
     }
 
+    @TypeConverter
+    fun fromSpeciesToString(species: Species): String {
+        return gson.toJson(species)
+    }
+
+    @TypeConverter
+    fun fromStringToSpecies(species: String): Species {
+        val listType = object : TypeToken<Species>() {}.type
+        return gson.fromJson(species, listType)
+    }
+
 }
