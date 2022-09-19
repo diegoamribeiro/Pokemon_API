@@ -25,6 +25,8 @@ data class PokemonEntity(
     val types: List<Types>?,
     @SerializedName("sprites")
     val sprites: Sprites,
+    @SerializedName("species")
+    val species: Species
 )
 
 fun PokemonEntity.toDomain(): Pokemon {
@@ -37,7 +39,8 @@ fun PokemonEntity.toDomain(): Pokemon {
         name = this.name,
         stats = this.stats,
         types = this.types!!,
-        imageUrl = this.sprites
+        imageUrl = this.sprites,
+        species = this.species
     )
 }
 

@@ -7,7 +7,7 @@ import com.dmribeiro.pokedex_app.domain.Pokemon
 import com.dmribeiro.pokedex_app.model.Abilities
 
 
-@Database(entities = [Pokemon::class], version = 1, exportSchema = false)
+@Database(entities = [Pokemon::class], version = 2, exportSchema = false)
 @TypeConverters(PokemonConverter::class)
 abstract class PokemonDatabase : RoomDatabase() {
     abstract fun pokemonDao(): PokemonDao
