@@ -13,5 +13,4 @@ data class EvolvesTo(
     val isBaby: Boolean,
     @SerializedName("species")
     val species: Species
-
 )

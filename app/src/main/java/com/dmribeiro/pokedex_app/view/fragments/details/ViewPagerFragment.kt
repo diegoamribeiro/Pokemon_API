@@ -15,6 +15,7 @@ import com.dmribeiro.pokedex_app.utils.setTypeBackgroundTint
 import com.dmribeiro.pokedex_app.view.fragments.AboutFragment
 import com.dmribeiro.pokedex_app.view.fragments.EvolutionFragment
 import com.dmribeiro.pokedex_app.view.fragments.StatsFragment
+import com.dmribeiro.pokedex_app.view.fragments.home.MovesFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
 
@@ -32,7 +33,8 @@ class ViewPagerFragment(private val currentPokemon: PokemonListener) : Fragment(
         val fragmentList = arrayListOf(
             AboutFragment(currentPokemon),
             StatsFragment(currentPokemon),
-            EvolutionFragment()
+            EvolutionFragment(),
+            MovesFragment()
         )
         binding.tabLayout.setSelectedTabIndicatorColor(Color.parseColor(setTypeBackgroundTint(currentPokemon.callPokemon().types[0].type.name)))
         binding.tabLayout.setTabRippleColorResource(setTypeBackgroundLight(currentPokemon.callPokemon().types[0].type.name))
