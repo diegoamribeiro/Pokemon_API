@@ -4,10 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import com.dmribeiro.pokedex_app.di.local.LocalDataSource
 import com.dmribeiro.pokedex_app.domain.Pokemon
+import com.dmribeiro.pokedex_app.model.evolution.EvolutionChain
 import com.dmribeiro.pokedex_app.model.toDomain
-import dagger.hilt.android.scopes.ActivityRetainedScoped
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 
@@ -58,6 +56,23 @@ class RepositoryImpl @Inject constructor(
 
     override fun searchPokemon(pokemon: String): LiveData<List<Pokemon>> {
         return localDataSource.searchPokemon(pokemon)
+    }
+
+    override suspend fun getEvolutionChain(name: String) : EvolutionChain {
+        var itNumber: String? = null
+        remoteDatasource.getAllPokemon().body()!!.pokemonResult.map {
+            itNumber = getPokemon(name).species!!.url
+        }
+        val number = itNumber!!.replace("https://pokeapi.co/api/v2/pokemon-species/", "")
+
+        val lastCharacter = number.replace("/", "")
+        Log.d("***EvolutionNumber", lastCharacter)
+        val data = remoteDatasource.getEvolutionChain(lastCharacter)
+        var evolutionChain: EvolutionChain? = null
+        if (data.isSuccessful){
+            evolutionChain = data.body()!!.chainEntity
+        }
+        return evolutionChain!!
     }
 
 }

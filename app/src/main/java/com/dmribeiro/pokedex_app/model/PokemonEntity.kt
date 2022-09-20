@@ -2,6 +2,7 @@ package com.dmribeiro.pokedex_app.model
 
 
 import com.dmribeiro.pokedex_app.domain.Pokemon
+import com.dmribeiro.pokedex_app.model.evolution.EvolutionChain
 import com.dmribeiro.pokedex_app.utils.Constants
 import com.dmribeiro.pokedex_app.utils.Constants.IMAGE_URL
 import com.google.gson.annotations.SerializedName

@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.dmribeiro.pokedex_app.model.*
+import com.dmribeiro.pokedex_app.model.evolution.EvolutionChain
 import com.dmribeiro.pokedex_app.utils.Constants.POKEMON_TABLE
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize

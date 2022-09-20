@@ -4,6 +4,7 @@ import androidx.room.TypeConverter
 import com.dmribeiro.pokedex_app.domain.Pokemon
 import com.dmribeiro.pokedex_app.domain.PokemonType
 import com.dmribeiro.pokedex_app.model.*
+import com.dmribeiro.pokedex_app.model.evolution.EvolutionChain
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -107,6 +108,17 @@ class PokemonConverter {
     fun fromStringToSpecies(species: String): Species {
         val listType = object : TypeToken<Species>() {}.type
         return gson.fromJson(species, listType)
+    }
+
+    @TypeConverter
+    fun fromEvolutionChainToString(evolutionChain: EvolutionChain): String {
+        return gson.toJson(evolutionChain)
+    }
+
+    @TypeConverter
+    fun fromStringToEvolutionChain(evolutionChain: String): EvolutionChain {
+        val listType = object : TypeToken<EvolutionChain>() {}.type
+        return gson.fromJson(evolutionChain, listType)
     }
 
 }

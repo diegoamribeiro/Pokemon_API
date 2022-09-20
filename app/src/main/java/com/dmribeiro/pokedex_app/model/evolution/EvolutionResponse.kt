@@ -7,7 +7,7 @@ data class EvolutionResponse(
     @SerializedName("baby_trigger_item")
     val babyTriggerItem: Any,
     @SerializedName("chain")
-    val chain: Chain,
+    val chainEntity: EvolutionChain,
     @SerializedName("id")
     val id: Int
 )

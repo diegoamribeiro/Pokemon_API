@@ -3,8 +3,8 @@
     <CLASSES>
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/547549f0e7b558775cd0e28a0842b88b/transformed/jetified-mockk-android-1.12.0/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/daba32802612804c786b19b60fd79757/transformed/jetified-mockk-android-1.12.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/daba32802612804c786b19b60fd79757/transformed/jetified-mockk-android-1.12.0/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/daba32802612804c786b19b60fd79757/transformed/jetified-mockk-android-1.12.0/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/547549f0e7b558775cd0e28a0842b88b/transformed/jetified-mockk-android-1.12.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/547549f0e7b558775cd0e28a0842b88b/transformed/jetified-mockk-android-1.12.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.mockk/mockk-android/1.12.0/1fce1cf21b449d9ef4a83fd3f84f26d1e03f0e5d/mockk-android-1.12.0-javadoc.jar!/" />
