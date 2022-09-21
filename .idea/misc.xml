@@ -29,6 +29,7 @@
         <entry key="app/src/main/res/drawable/ic_measure_height_icon.xml" value="0.2115" />
         <entry key="app/src/main/res/drawable/ic_weight_kilogram.xml" value="0.2115" />
         <entry key="app/src/main/res/drawable/ic_xp.xml" value="0.2115" />
+        <entry key="app/src/main/res/layout/evolution_item.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_about.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_details.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_evolution.xml" value="0.3619791666666667" />

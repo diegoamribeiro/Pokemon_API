@@ -1,6 +1,5 @@
 package com.dmribeiro.pokedex_app.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.dmribeiro.pokedex_app.di.local.LocalDataSource
 import com.dmribeiro.pokedex_app.domain.Pokemon
@@ -13,7 +12,6 @@ class RepositoryImpl @Inject constructor(
     private val remoteDatasource: RemoteDatasource,
     private val localDataSource: LocalDataSource
 ) : Repository {
-
 
     override suspend fun getAllPokemon(): List<Pokemon> {
         return if (localDataSource.getAllLocalPokemon().isNullOrEmpty()){
@@ -54,25 +52,33 @@ class RepositoryImpl @Inject constructor(
         localDataSource.insertPokemon(pokemon)
     }
 
-    override fun searchPokemon(pokemon: String): LiveData<List<Pokemon>> {
+    override fun searchPokemon(pokemon: String) : LiveData<List<Pokemon>> {
         return localDataSource.searchPokemon(pokemon)
     }
 
-    override suspend fun getEvolutionChain(name: String) : EvolutionChain {
+    private suspend fun getEvolutionChain(name: String) : EvolutionChain {
         var itNumber: String? = null
         remoteDatasource.getAllPokemon().body()!!.pokemonResult.map {
             itNumber = getPokemon(name).species!!.url
         }
         val number = itNumber!!.replace("https://pokeapi.co/api/v2/pokemon-species/", "")
-
         val lastCharacter = number.replace("/", "")
-        Log.d("***EvolutionNumber", lastCharacter)
+        //Log.d("***EvolutionNumber", lastCharacter)
         val data = remoteDatasource.getEvolutionChain(lastCharacter)
         var evolutionChain: EvolutionChain? = null
         if (data.isSuccessful){
             evolutionChain = data.body()!!.chainEntity
         }
         return evolutionChain!!
+    }
+
+    override suspend fun getPokemonChain(name: String): List<Pokemon> {
+        val listOfPokemon = mutableListOf<Pokemon>()
+        val pokemon = getEvolutionChain(name)
+        for (i in 0..pokemon.evolvesTo.size){
+            listOfPokemon.add(getPokemon(pokemon.species.name))
+        }
+        return listOfPokemon
     }
 
 }

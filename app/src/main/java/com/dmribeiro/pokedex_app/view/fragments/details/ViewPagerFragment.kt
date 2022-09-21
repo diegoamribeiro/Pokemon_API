@@ -33,7 +33,7 @@ class ViewPagerFragment(private val currentPokemon: PokemonListener) : Fragment(
         val fragmentList = arrayListOf(
             AboutFragment(currentPokemon),
             StatsFragment(currentPokemon),
-            EvolutionFragment(),
+            EvolutionFragment(currentPokemon),
             MovesFragment()
         )
         binding.tabLayout.setSelectedTabIndicatorColor(Color.parseColor(setTypeBackgroundTint(currentPokemon.callPokemon().types[0].type.name)))

@@ -95,7 +95,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener, MenuProvider {
             })
             val getPreferences: SharedPreferences = getDefaultSharedPreferences(requireContext())
             lastPosition = getPreferences.getInt("lastPosition", lastPosition)
-            Log.d("***PositionOnResume -> ", lastPosition.toString())
+            //Log.d("***PositionOnResume -> ", lastPosition.toString())
         }
     }
 
@@ -108,7 +108,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener, MenuProvider {
                         binding.rvList.hideShimmer()
                         response.data?.let {
                             homeAdapter.setData(it)
-                            Log.d("**Data", it.toString())
+                            //Log.d("**Data", it.toString())
                         }
                         recyclerView.scrollToPosition(lastPosition)
                     }
@@ -133,7 +133,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener, MenuProvider {
         val editor: SharedPreferences.Editor = preferences.edit()
         editor.putInt("lastPosition", lastPosition)
         editor.apply()
-        Log.d("***PositionOnPause -> ", lastPosition.toString())
+        //Log.d("***PositionOnPause -> ", lastPosition.toString())
     }
 
     override fun onDestroy() {
@@ -142,7 +142,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener, MenuProvider {
         val editor: SharedPreferences.Editor = preferences.edit()
         editor.putInt("lastPosition", 0)
         editor.apply()
-        Log.d("***PositionOnDestroy -> ", lastPosition.toString())
+        //Log.d("***PositionOnDestroy -> ", lastPosition.toString())
     }
 
     private fun searchThroughDatabase(pokemon: String) {

@@ -25,14 +25,12 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getAllPokemonUseCase: GetAllPokemonUseCase,
     private val searchPokemonUseCase: SearchPokemonUseCase,
-    private val getEvolutionChainUseCase: GetEvolutionChainUseCase
 ) : ViewModel() {
 
     private val _pokemonResponse = MutableLiveData<ResponseViewState<List<Pokemon>>>()
     val pokemonResponse: LiveData<ResponseViewState<List<Pokemon>>> = _pokemonResponse
 
-    private val _evolutionChain = MutableLiveData<ResponseViewState<LiveData<EvolutionChain>>>()
-    val evolutionChain: LiveData<ResponseViewState<LiveData<EvolutionChain>>> = _evolutionChain
+
 
     fun getAllPokemon() = viewModelScope.launch(Dispatchers.IO) {
         _pokemonResponse.postValue(ResponseViewState.Loading())
@@ -46,13 +44,5 @@ class HomeViewModel @Inject constructor(
     fun searchPokemon(pokemon: String) : LiveData<List<Pokemon>> {
             return searchPokemonUseCase.searchPokemonFromDatabase(pokemon)
     }
-
-    fun getEvolutionChain(name: String) = viewModelScope.launch(Dispatchers.IO) {
-        _evolutionChain.postValue(ResponseViewState.Loading())
-        getEvolutionChainUseCase.getEvolutionChainUseCase(name).onSuccess {
-
-        }
-    }
-
 
 }

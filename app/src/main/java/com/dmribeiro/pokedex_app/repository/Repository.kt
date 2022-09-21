@@ -9,5 +9,5 @@ interface Repository {
     suspend fun getPokemon(name: String): Pokemon
     suspend fun insertPokemon(pokemon: List<Pokemon>)
     fun searchPokemon(pokemon: String) : LiveData<List<Pokemon>>
-    suspend fun getEvolutionChain(name: String) : EvolutionChain
+    suspend fun getPokemonChain(name: String) : List<Pokemon>
 }

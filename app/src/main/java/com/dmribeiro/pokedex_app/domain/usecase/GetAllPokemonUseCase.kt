@@ -10,7 +10,7 @@ class GetAllPokemonUseCase @Inject constructor(
     private val repository: Repository
 ) {
 
-    suspend operator fun  invoke() : Result<List<Pokemon>> {
+    suspend operator fun invoke() : Result<List<Pokemon>> {
         return try {
             Result.success(repository.getAllPokemon())
         }catch (exception: RemoteException){
