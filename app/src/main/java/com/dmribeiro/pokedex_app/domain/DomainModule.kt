@@ -1,9 +1,9 @@
 package com.dmribeiro.pokedex_app.domain
 
-import com.dmribeiro.pokedex_app.di.local.LocalDataSource
-import com.dmribeiro.pokedex_app.repository.RemoteDatasource
-import com.dmribeiro.pokedex_app.repository.Repository
-import com.dmribeiro.pokedex_app.repository.RepositoryImpl
+import com.dmribeiro.pokedex_app.data.local.datasource.LocalDataSource
+import com.dmribeiro.pokedex_app.data.remote.datasource.RemoteDatasource
+import com.dmribeiro.pokedex_app.data.repository.Repository
+import com.dmribeiro.pokedex_app.data.repository.RepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

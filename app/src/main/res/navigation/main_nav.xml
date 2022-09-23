@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.dmribeiro.pokedex_app.view.fragments.home.HomeFragment"
+        android:name="com.dmribeiro.pokedex_app.presentation.view.fragments.home.HomeFragment"
         android:label="Pokédex"
         tools:layout="@layout/fragment_home" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.dmribeiro.pokedex_app.view.fragments.details.DetailsFragment"
+        android:name="com.dmribeiro.pokedex_app.presentation.view.fragments.details.DetailsFragment"
         android:label=""
         tools:layout="@layout/fragment_details" >
         <action
@@ -28,6 +28,6 @@
             app:enterAnim="@anim/from_left" />
         <argument
             android:name="currentPokemon"
-            app:argType="com.dmribeiro.pokedex_app.domain.Pokemon" />
+            app:argType="com.dmribeiro.pokedex_app.domain.model.Pokemon" />
     </fragment>
 </navigation>

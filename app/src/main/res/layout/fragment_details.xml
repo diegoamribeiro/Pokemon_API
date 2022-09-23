@@ -7,7 +7,7 @@
     style="@style/CardViewStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragments.details.DetailsFragment">
+    tools:context=".presentation.view.fragments.details.DetailsFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
