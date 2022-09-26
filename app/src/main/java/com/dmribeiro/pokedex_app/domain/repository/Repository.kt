@@ -1,4 +1,4 @@
-package com.dmribeiro.pokedex_app.data.repository
+package com.dmribeiro.pokedex_app.domain.repository
 
 import androidx.lifecycle.LiveData
 import com.dmribeiro.pokedex_app.data.remote.model.CompletePokemonResponse

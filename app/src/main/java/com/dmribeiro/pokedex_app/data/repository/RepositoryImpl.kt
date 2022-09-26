@@ -7,9 +7,9 @@ import com.dmribeiro.pokedex_app.data.local.model.toDomain
 import com.dmribeiro.pokedex_app.data.local.model.toEntity
 import com.dmribeiro.pokedex_app.data.remote.datasource.RemoteDatasource
 import com.dmribeiro.pokedex_app.data.remote.model.CompletePokemonResponse
-import com.dmribeiro.pokedex_app.data.remote.model.PokemonResponse
 import com.dmribeiro.pokedex_app.data.remote.model.toDomain
 import com.dmribeiro.pokedex_app.domain.model.Pokemon
+import com.dmribeiro.pokedex_app.domain.repository.Repository
 import javax.inject.Inject
 
 

@@ -1,9 +1,7 @@
 package com.dmribeiro.pokedex_app.domain.usecase
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
-import com.dmribeiro.pokedex_app.data.local.model.toDomain
-import com.dmribeiro.pokedex_app.data.repository.Repository
+import com.dmribeiro.pokedex_app.domain.repository.Repository
 import com.dmribeiro.pokedex_app.domain.model.Pokemon
 import javax.inject.Inject
 
