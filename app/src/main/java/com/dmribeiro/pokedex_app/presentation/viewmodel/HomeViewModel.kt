@@ -20,7 +20,7 @@ class HomeViewModel @Inject constructor(
     private val searchPokemonUseCase: SearchPokemonUseCase
 ) : ViewModel() {
 
-    private val _pokemonResponse = MutableLiveData<ResponseViewState<List<Pokemon>>>()
+    private var _pokemonResponse = MutableLiveData<ResponseViewState<List<Pokemon>>>()
     val pokemonResponse: LiveData<ResponseViewState<List<Pokemon>>> = _pokemonResponse
 
     private val _searchPokemon = MutableLiveData<LiveData<List<Pokemon>>>()

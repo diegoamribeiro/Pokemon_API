@@ -108,7 +108,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener, MenuProvider {
                         binding.rvList.hideShimmer()
                         response.data?.let {
                             homeAdapter.setData(it)
-                            Log.d("**Data", it.toString())
+                            Log.d("**DataNew", it.toString())
                         }
                         recyclerView.scrollToPosition(lastPosition)
                     }

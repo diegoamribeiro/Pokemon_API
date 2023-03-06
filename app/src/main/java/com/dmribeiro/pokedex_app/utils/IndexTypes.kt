@@ -1,6 +1,6 @@
 package com.dmribeiro.pokedex_app.utils
 
-enum class IndexType(val typeName: String) {
+enum class IndexType(val type: String) {
     GRASS("grass"),
     BUG("bug"),
     DARK("dark"),
