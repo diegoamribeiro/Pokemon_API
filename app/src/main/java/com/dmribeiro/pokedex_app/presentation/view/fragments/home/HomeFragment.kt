@@ -24,18 +24,18 @@ import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager.getDefaultSharedPreferences
-import com.dmribeiro.pokedex_app.presentation.state.ResponseViewState
+import com.dmribeiro.pokedex_app.presentation.state.Resource
+import com.dmribeiro.pokedex_app.utils.viewBinding
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), SearchView.OnQueryTextListener, MenuProvider {
 
-    private lateinit var binding: FragmentHomeBinding
+    private val binding: FragmentHomeBinding by viewBinding()
     private lateinit var recyclerView: RecyclerView
     private lateinit var homeViewModel: HomeViewModel
     private var lastPosition: Int = 0
     private val homeAdapter: PokemonHomeAdapter by lazy { PokemonHomeAdapter() }
-    private lateinit var mLayoutManager: GridLayoutManager
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreateView(
@@ -52,8 +52,6 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener, MenuProvider {
             )
         )
         homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
-        binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
-        mLayoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
         recyclerView = binding.rvList
         binding.rvList.showShimmer()
         setupRecyclerView()
@@ -64,6 +62,8 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener, MenuProvider {
         super.onViewCreated(view, savedInstanceState)
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        homeViewModel.getAllPokemon()
+        requestApiData()
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -73,7 +73,6 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener, MenuProvider {
         searchView?.isSubmitButtonEnabled = true
         searchView?.setOnQueryTextListener(this)
         search.icon?.setTint(resources.getColor(R.color.template_fire_color))
-        requestApiData()
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -81,12 +80,15 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener, MenuProvider {
     }
 
     private fun setupRecyclerView() {
+
+        val mLayoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+
         recyclerView.apply {
             adapter = homeAdapter
             layoutManager = mLayoutManager
-            itemAnimator = SlideInUpAnimator().apply {
-                addDuration = 300
-            }
+//            itemAnimator = SlideInUpAnimator().apply {
+//                addDuration = 300
+//            }
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
@@ -101,10 +103,9 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener, MenuProvider {
 
     private fun requestApiData() {
         lifecycleScope.launch {
-            homeViewModel.getAllPokemon()
             homeViewModel.pokemonResponse.observe(viewLifecycleOwner) { response ->
                 when (response) {
-                    is ResponseViewState.Success -> {
+                    is Resource.Success -> {
                         binding.rvList.hideShimmer()
                         response.data?.let {
                             homeAdapter.setData(it)
@@ -112,19 +113,22 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener, MenuProvider {
                         }
                         recyclerView.scrollToPosition(lastPosition)
                     }
-                    is ResponseViewState.Error -> {
+                    is Resource.Error -> {
                         response.let {
                             binding.rvList.hideShimmer()
                             Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT)
                                 .show()
                         }
                     }
-                    is ResponseViewState.Loading -> {
+                    is Resource.Loading -> {
                         binding.rvList.showShimmer()
                     }
                 }
             }
         }
+    }
+    private fun saveAdapterPosition() {
+
     }
 
     override fun onPause() {

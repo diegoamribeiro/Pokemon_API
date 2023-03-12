@@ -27,7 +27,8 @@ class RepositoryImpl @Inject constructor(
         }
     }
 
-    private suspend fun getRemotePokemon(): List<Pokemon> {
+    private suspend fun getRemotePokemon(
+    ): List<Pokemon> {
         val listOfPokemon: List<Pokemon> = remoteDatasource.getAllPokemon().body()!!.pokemonResponse.map {
             getPokemon(it.name).toDomain()
         }
