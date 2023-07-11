@@ -21,6 +21,7 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager.getDefaultSharedPreferences
@@ -29,19 +30,27 @@ import com.dmribeiro.pokedex_app.utils.viewBinding
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), SearchView.OnQueryTextListener, MenuProvider {
+class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
 
-    private val binding: FragmentHomeBinding by viewBinding()
+    private lateinit var binding: FragmentHomeBinding
     private lateinit var recyclerView: RecyclerView
-    private lateinit var homeViewModel: HomeViewModel
+    private val homeViewModel: HomeViewModel by viewModels()
     private var lastPosition: Int = 0
     private val homeAdapter: PokemonHomeAdapter by lazy { PokemonHomeAdapter() }
+    private lateinit var mLayoutManager: GridLayoutManager
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         val window: Window = requireActivity().window
         window.statusBarColor = resources.getColor(R.color.template_fire_color)
         val mActivity = (activity as MainActivity).supportActionBar
@@ -51,44 +60,27 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener, MenuProvider {
                 resources.newTheme()
             )
         )
-        homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
-        recyclerView = binding.rvList
-        binding.rvList.showShimmer()
-        setupRecyclerView()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val menuHost: MenuHost = requireActivity()
-        menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
-        homeViewModel.getAllPokemon()
         requestApiData()
-    }
-
-    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.home_fragment_menu, menu)
-        val search = menu.findItem(R.id.menu_search)
-        val searchView = search.actionView as? SearchView
-        searchView?.isSubmitButtonEnabled = true
-        searchView?.setOnQueryTextListener(this)
-        search.icon?.setTint(resources.getColor(R.color.template_fire_color))
-    }
-
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        return true
+        mLayoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+        recyclerView = binding.rvList
+        recyclerView.apply {
+            itemAnimator = SlideInUpAnimator().apply {
+                addDuration = 300
+            }
+        }
+        binding.rvList.showShimmer()
+        setupRecyclerView()
     }
 
     private fun setupRecyclerView() {
-
-        val mLayoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
-
         recyclerView.apply {
             adapter = homeAdapter
             layoutManager = mLayoutManager
-//            itemAnimator = SlideInUpAnimator().apply {
-//                addDuration = 300
-//            }
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
@@ -102,7 +94,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener, MenuProvider {
     }
 
     private fun requestApiData() {
-        lifecycleScope.launch {
+
             homeViewModel.pokemonResponse.observe(viewLifecycleOwner) { response ->
                 when (response) {
                     is Resource.Success -> {
@@ -111,7 +103,6 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener, MenuProvider {
                             homeAdapter.setData(it)
                             Log.d("**DataNew", it.toString())
                         }
-                        recyclerView.scrollToPosition(lastPosition)
                     }
                     is Resource.Error -> {
                         response.let {
@@ -125,9 +116,6 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener, MenuProvider {
                     }
                 }
             }
-        }
-    }
-    private fun saveAdapterPosition() {
 
     }
 
@@ -154,6 +142,23 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener, MenuProvider {
         homeViewModel.searchPokemon(searchQuery).observe(this) { list ->
             homeAdapter.setData(list)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        // Infla o menu; este adiciona itens à barra de ação, se estiver presente.
+        inflater.inflate(R.menu.home_fragment_menu, menu)
+
+        // Configura o SearchView
+        val search = menu.findItem(R.id.menu_search)
+        val searchView = search.actionView as? SearchView
+        searchView?.isSubmitButtonEnabled = true
+        searchView?.setOnQueryTextListener(this)
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Trata eventos de clique de item de menu aqui
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {

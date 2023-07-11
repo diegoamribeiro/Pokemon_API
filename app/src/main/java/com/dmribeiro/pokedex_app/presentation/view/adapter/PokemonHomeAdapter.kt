@@ -55,9 +55,7 @@ class PokemonHomeAdapter : RecyclerView.Adapter<PokemonHomeAdapter.HomeViewHolde
     }
 
     fun setData(list: List<Pokemon>){
-        val pokemonDiffUtil = DiffUtilGeneric(pokemonList, list)
-        val pokemonResult = DiffUtil.calculateDiff(pokemonDiffUtil)
         this.pokemonList = list
-        pokemonResult.dispatchUpdatesTo(this)
+        notifyDataSetChanged()
     }
 }
