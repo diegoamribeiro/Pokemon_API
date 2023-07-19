@@ -12,6 +12,10 @@ import com.dmribeiro.pokedex_app.data.remote.model.CompletePokemonResponse
 import com.dmribeiro.pokedex_app.data.remote.model.toDomain
 import com.dmribeiro.pokedex_app.domain.model.Pokemon
 import com.dmribeiro.pokedex_app.domain.repository.Repository
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.toList
 import javax.inject.Inject
 
 
@@ -30,15 +34,20 @@ class RepositoryImpl @Inject constructor(
     }
 
     private suspend fun getRemotePokemon(): List<Pokemon> {
+        val concurrencyLimit = 2
         val response = remoteDatasource.getAllPokemon()
 
         if (response.isSuccessful.not()) {
             throw PokemonFetchException("Unable to fetch Pokemon from remote source")
         }
 
-        val remotePokemon = response.body()?.pokemonResponse?.map {
-            getPokemon(it.name).toDomain()
-        } ?: emptyList()
+        val pokemonNames = response.body()?.pokemonResponse?.map { it.name } ?: emptyList()
+
+        val remotePokemon = pokemonNames.asFlow().flatMapMerge(concurrencyLimit) { name ->
+            flow {
+                emit(getPokemon(name).toDomain())
+            }
+        }.toList()
 
         val localData = localDataSource.getAllLocalPokemon()
 
@@ -49,6 +58,7 @@ class RepositoryImpl @Inject constructor(
 
         return localDataSource.getAllLocalPokemon().map { it.toDomain() }
     }
+
 
     private fun areListsEqual(listLocal: List<Pokemon>, listRemote: List<PokemonEntity>): Boolean {
         return listLocal.size == listRemote.size && listLocal.all { listRemote.contains(it.toEntity()) }
