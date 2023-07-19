@@ -89,19 +89,19 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
             })
             val getPreferences: SharedPreferences = getDefaultSharedPreferences(requireContext())
             lastPosition = getPreferences.getInt("lastPosition", lastPosition)
-            Log.d("***PositionOnResume -> ", lastPosition.toString())
+            //Log.d("***PositionOnResume -> ", lastPosition.toString())
         }
     }
 
     private fun requestApiData() {
-
+        lifecycleScope.launch{
             homeViewModel.pokemonResponse.observe(viewLifecycleOwner) { response ->
                 when (response) {
                     is Resource.Success -> {
                         binding.rvList.hideShimmer()
                         response.data?.let {
+                            Log.d("***Home", it.toString())
                             homeAdapter.setData(it)
-                            Log.d("**DataNew", it.toString())
                         }
                     }
                     is Resource.Error -> {
@@ -116,7 +116,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
                     }
                 }
             }
-
+        }
     }
 
     override fun onPause() {
@@ -125,7 +125,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         val editor: SharedPreferences.Editor = preferences.edit()
         editor.putInt("lastPosition", lastPosition)
         editor.apply()
-        Log.d("***PositionOnPause -> ", lastPosition.toString())
+        //Log.d("***PositionOnPause -> ", lastPosition.toString())
     }
 
     override fun onDestroy() {
@@ -134,7 +134,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         val editor: SharedPreferences.Editor = preferences.edit()
         editor.putInt("lastPosition", 0)
         editor.apply()
-        Log.d("***PositionOnDestroy -> ", lastPosition.toString())
+        //Log.d("***PositionOnDestroy -> ", lastPosition.toString())
     }
 
     private fun searchThroughDatabase(pokemon: String) {
@@ -144,6 +144,8 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         }
     }
 
+
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         // Infla o menu; este adiciona itens à barra de ação, se estiver presente.
         inflater.inflate(R.menu.home_fragment_menu, menu)

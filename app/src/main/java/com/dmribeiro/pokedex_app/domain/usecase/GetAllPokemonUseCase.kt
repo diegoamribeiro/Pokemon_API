@@ -12,7 +12,6 @@ class GetAllPokemonUseCase @Inject constructor(
 
     suspend operator fun  invoke() : Result<List<Pokemon>> {
         return try {
-            Log.d("*LoadData", repository.getAllPokemon().toString())
             Result.success(repository.getAllPokemon())
         }catch (exception: RemoteException){
             Result.failure(exception)

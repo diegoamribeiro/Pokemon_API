@@ -28,7 +28,7 @@ class PokemonConverter {
 
     @TypeConverter
     fun fromStringToAbility(ability: String): AbilitiesEntity {
-        val listType = object : TypeToken<AbilityResponse>() {}.type
+        val listType = object : TypeToken<AbilitiesEntity>() {}.type
         return gson.fromJson(ability, listType)
     }
 
@@ -72,7 +72,7 @@ class PokemonConverter {
 
     @TypeConverter
     fun fromStringToStats(stats: String): StatsEntity {
-        val listType = object : TypeToken<StatsResponse>() {}.type
+        val listType = object : TypeToken<StatsEntity>() {}.type
         return gson.fromJson(stats, listType)
     }
 
@@ -108,5 +108,4 @@ class PokemonConverter {
         val listType = object : TypeToken<SpeciesEntity>() {}.type
         return gson.fromJson(species, listType)
     }
-
 }

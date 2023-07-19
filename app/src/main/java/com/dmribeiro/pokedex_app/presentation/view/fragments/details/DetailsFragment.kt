@@ -2,6 +2,7 @@ package com.dmribeiro.pokedex_app.presentation.view.fragments.details
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -43,6 +44,7 @@ class DetailsFragment : Fragment(), PokemonListener {
         setArguments()
 
         setHasOptionsMenu(true)
+        Log.d("***Details", args.currentPokemon.toString())
         return binding.root
     }
 

@@ -1,8 +1,10 @@
 package com.dmribeiro.pokedex_app.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.dmribeiro.pokedex_app.data.local.datasource.LocalDataSource
+import com.dmribeiro.pokedex_app.data.local.model.PokemonEntity
 import com.dmribeiro.pokedex_app.data.local.model.toDomain
 import com.dmribeiro.pokedex_app.data.local.model.toEntity
 import com.dmribeiro.pokedex_app.data.remote.datasource.RemoteDatasource
@@ -18,41 +20,48 @@ class RepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSource
 ) : Repository {
 
-
     override suspend fun getAllPokemon(): List<Pokemon> {
-        return if (localDataSource.getAllLocalPokemon().isNullOrEmpty()){
+        val localPokemon = localDataSource.getAllLocalPokemon()
+        return if (localPokemon.isNullOrEmpty()){
             getRemotePokemon()
-        }else{
-            localDataSource.getAllLocalPokemon().map { it.toDomain() }
+        } else {
+            localPokemon.map { it.toDomain() }
         }
     }
 
-    private suspend fun getRemotePokemon(
-    ): List<Pokemon> {
-        val listOfPokemon: List<Pokemon> = remoteDatasource.getAllPokemon().body()!!.pokemonResponse.map {
-            getPokemon(it.name).toDomain()
+    private suspend fun getRemotePokemon(): List<Pokemon> {
+        val response = remoteDatasource.getAllPokemon()
+
+        if (response.isSuccessful.not()) {
+            throw PokemonFetchException("Unable to fetch Pokemon from remote source")
         }
 
+        val remotePokemon = response.body()?.pokemonResponse?.map {
+            getPokemon(it.name).toDomain()
+        } ?: emptyList()
+
         val localData = localDataSource.getAllLocalPokemon()
-        if (listOfPokemon.size != localData.size){
+
+        if (!areListsEqual(remotePokemon, localData)) {
             localDataSource.deletePokemon()
-            localDataSource.insertPokemon(listOfPokemon.map { it.toEntity() })
+            localDataSource.insertPokemon(remotePokemon.map { it.toEntity() })
         }
 
         return localDataSource.getAllLocalPokemon().map { it.toDomain() }
     }
 
+    private fun areListsEqual(listLocal: List<Pokemon>, listRemote: List<PokemonEntity>): Boolean {
+        return listLocal.size == listRemote.size && listLocal.all { listRemote.contains(it.toEntity()) }
+    }
+
     override suspend fun getPokemon(name: String): CompletePokemonResponse {
         val response = remoteDatasource.getPokemon(name)
-        var pokemon: CompletePokemonResponse? = null
-        try {
-            if (response.isSuccessful){
-                pokemon = response.body()
-            }
-        }catch (exception: Exception){
-            throw exception
+
+        if (response.isSuccessful.not()) {
+            throw PokemonFetchException("Unable to fetch Pokemon details from remote source")
         }
-        return pokemon!!
+
+        return response.body() ?: throw PokemonFetchException("Received null Pokemon details from remote source")
     }
 
     override suspend fun insertPokemon(pokemon: List<Pokemon>) {
@@ -62,5 +71,7 @@ class RepositoryImpl @Inject constructor(
     override fun searchPokemon(pokemon: String): LiveData<List<Pokemon>> {
         return localDataSource.searchPokemon(pokemon).map { list -> list.map { it.toDomain() } }
     }
-
 }
+
+class PokemonFetchException(message: String): Exception(message)
+

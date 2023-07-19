@@ -13,6 +13,7 @@ import com.dmribeiro.pokedex_app.presentation.view.fragments.home.HomeFragmentDi
 import com.dmribeiro.pokedex_app.utils.DiffUtilGeneric
 import com.dmribeiro.pokedex_app.utils.gone
 import com.dmribeiro.pokedex_app.utils.setTypeLightColor
+import com.dmribeiro.pokedex_app.utils.visible
 import java.util.*
 
 class PokemonHomeAdapter : RecyclerView.Adapter<PokemonHomeAdapter.HomeViewHolder>() {
@@ -31,16 +32,18 @@ class PokemonHomeAdapter : RecyclerView.Adapter<PokemonHomeAdapter.HomeViewHolde
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         holder.binding.apply {
 
-            if (pokemonList[position].types.size > 1 ){
-                mtvTypeNd.text = pokemonList[position].types[1].name.replaceFirstChar { it.uppercase(Locale.getDefault()) }
-            }else{
-                mtvTypeNd.gone()
-            }
+
 
             mtvName.text = pokemonList[position].name.replaceFirstChar { it.uppercase(Locale.getDefault()) }
             mtvTypeSt.text = pokemonList[position].types[0].name.replaceFirstChar { it.uppercase(Locale.getDefault()) }
             mtvNumber.text = "#${pokemonList[position].number.toString().padStart(3,'0')}"
             cardViewType.setTypeLightColor(pokemonList[position].types[0].name)
+            if (pokemonList[position].types.size > 1) {
+                mtvTypeNd.text = pokemonList[position].types[1].name.replaceFirstChar { it.uppercase(Locale.getDefault()) }
+                mtvTypeNd.visible() // adicione esta linha
+            } else {
+                mtvTypeNd.gone()
+            }
 
             Glide.with(holder.itemView)
                 .load(pokemonList[position].imageUrl)
