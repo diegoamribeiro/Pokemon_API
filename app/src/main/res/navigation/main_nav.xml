@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/registerPasswordFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -30,4 +30,8 @@
             android:name="currentPokemon"
             app:argType="com.dmribeiro.pokedex_app.domain.model.Pokemon" />
     </fragment>
+    <fragment
+        android:id="@+id/registerPasswordFragment"
+        android:name="com.boxdelivery.courier.ui.register.common.RegisterPasswordFragment"
+        android:label="RegisterPasswordFragment" />
 </navigation>

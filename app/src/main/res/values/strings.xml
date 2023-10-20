@@ -17,4 +17,21 @@
     <string name="speed">Speed</string>
     <string name="special_defense">Special \nDefense</string>
     <string name="special_attack">Special \nAttack</string>
+    <string name="text_password_instruction">Evite senhas óbvias como nome próprio ou números em sequência, use caracteres especiais.</string>
+    <string name="label_password">Senha</string>
+    <string name="text_hint_new_password">Nova senha</string>
+    <string name="text_hint_confirm_new_password">Confirmar nova senha</string>
+    <string name="text_hint_repeat_new_password">Repetir senha</string>
+    <string name="label_password_security">Segurança da senha</string>
+    <string name="label_eight_char">Ao menos 8 caracteres</string>
+    <string name="label_one_number">Ao menos 1 número</string>
+    <string name="label_one_special_char">Ao menos 1 caractere especial</string>
+    <string name="label_password_weak">Fraca</string>
+    <string name="label_password_strong">Forte</string>
+    <string name="error_required_password">É obrigatório a senha</string>
+    <string name="error_required_password_confirm_different">As senhas informadas devem ser iguais</string>
+    <string name="error_invalid_password">Senha inválida</string>
+    <string name="error_fail">Não conseguimos completar sua solicitação</string>
+
+
 </resources>
