@@ -88,25 +88,25 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
 
         showDialog()
 
-//        binding.btZap.setOnTouchListener { view, event ->
-//            when (event.action) {
-//                MotionEvent.ACTION_DOWN -> {
-//                    dX = view.x - event.rawX
-//                    dY = view.y - event.rawY
-//                    true
-//                }
-//                MotionEvent.ACTION_MOVE -> {
-//                    view.animate()
-//                        .x(event.rawX + dX)
-//                        .y(event.rawY + dY)
-//                        .setDuration(0)
-//                        .start()
-//                    redrawHoleForButton()  // Esta função irá redesenhar o buraco no overlay
-//                    true
-//                }
-//                else -> false
-//            }
-//        }
+        binding.btZap.setOnTouchListener { view, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    dX = view.x - event.rawX
+                    dY = view.y - event.rawY
+                    true
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    view.animate()
+                        .x(event.rawX + dX)
+                        .y(event.rawY + dY)
+                        .setDuration(0)
+                        .start()
+                    binding.btZap.redrawHoleForButton()  // Esta função irá redesenhar o buraco no overlay
+                    true
+                }
+                else -> false
+            }
+        }
 
         // Chamar showDialog() depois que o layout for processado
         view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
@@ -118,27 +118,21 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         })
     }
 
-    private fun redrawHoleForButton() {
+    fun View.redrawHoleForButton() {
         val displayMetrics = resources.displayMetrics
         val screenWidth = displayMetrics.widthPixels
         val screenHeight = displayMetrics.heightPixels
 
-        // Verifique se o overlay já foi criado
-        if (overlay == null) {
-            overlay = Bitmap.createBitmap(screenWidth, screenHeight, Bitmap.Config.ARGB_8888)
-        }
-        val canvas = Canvas(overlay!!)
-        // Limpe o overlay antes de desenhar
-        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
-        // Preencha o overlay
+        val overlay = Bitmap.createBitmap(screenWidth, screenHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(overlay)
         canvas.drawColor(Color.parseColor("#80000000"))
 
         val coords = IntArray(2)
-        binding.btZap.getLocationInWindow(coords)
+        this.getLocationInWindow(coords)
         val buttonX = coords[0]
-        val buttonY = coords[1] - statusBarHeightNew()
-        val buttonWidth = binding.btZap.width
-        val buttonHeight = binding.btZap.height
+        val buttonY = coords[1]
+        val buttonWidth = this.width
+        val buttonHeight = this.height
 
         val clearPaint = Paint().apply {
             xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
@@ -146,15 +140,40 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         }
 
         canvas.drawRect(
-            buttonX.toFloat(),
-            buttonY.toFloat(),
-            (buttonX + buttonWidth).toFloat(),
-            (buttonY + buttonHeight).toFloat(),
+            buttonX.toFloat() - 10, // Largura do lado esquerdo
+            buttonY.toFloat() - 10, // Altura do top
+            (buttonX + buttonWidth).toFloat() + 10f, // Largura do lado direito
+            (buttonY + buttonHeight).toFloat() + 10f, // Altura da base
             clearPaint
         )
 
-        binding.ivOverlayWithHole.setImageBitmap(overlay)
+        // Verifica se o pai da View é um ViewGroup
+        val parent = this.parent
+        if (parent is ViewGroup) {
+            // Cria o ImageView
+            val overlayImageView = ImageView(this.context).apply {
+                layoutParams = ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                )
+                setImageBitmap(overlay)
+                visibility = View.VISIBLE
+            }
+
+            // Remove um ImageView anterior, se existir
+            val existingImageView = parent.findViewWithTag<ImageView>("OverlayWithHoleTag")
+            existingImageView?.let { parent.removeView(it) }
+
+            // Adiciona tag ao ImageView para poder encontrá-lo e removê-lo mais tarde
+            overlayImageView.tag = "OverlayWithHoleTag"
+
+            // Adiciona o ImageView ao ViewGroup
+            parent.addView(overlayImageView)
+        }
     }
+
+
+
 
 
     private fun statusBarHeightNew(): Int {
@@ -273,32 +292,30 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
             val path = Path()
             when (arrowDirection) {
                 "TOP" -> {
-                    path.moveTo((viewX + viewWidth / 2) - arrowWidth / 2, viewY.toFloat())
-                    path.lineTo(viewX + viewWidth / 2f, viewY - arrowHeight)
-                    path.lineTo((viewX + viewWidth / 2) + arrowWidth / 2, viewY.toFloat())
+                    path.moveTo((viewX + viewWidth / 2) - arrowWidth / 2, balloonY + balloonHeight)
+                    path.lineTo(viewX + viewWidth / 2f, balloonY + balloonHeight + arrowHeight)
+                    path.lineTo((viewX + viewWidth / 2) + arrowWidth / 2, balloonY + balloonHeight)
                     path.close()
                 }
                 "BOTTOM" -> {
-                    path.moveTo((viewX + viewWidth / 2) - arrowWidth / 2, viewY + viewHeight.toFloat())
-                    path.lineTo(viewX + viewWidth / 2f, viewY + viewHeight + arrowHeight)
-                    path.lineTo((viewX + viewWidth / 2) + arrowWidth / 2, viewY + viewHeight.toFloat())
+                    path.moveTo((viewX + viewWidth / 2) - arrowWidth / 2, balloonY)
+                    path.lineTo(viewX + viewWidth / 2f, balloonY - arrowHeight)
+                    path.lineTo((viewX + viewWidth / 2) + arrowWidth / 2, balloonY)
                     path.close()
                 }
                 "LEFT" -> {
-                    path.moveTo(viewX.toFloat(), (viewY + viewHeight / 2) - arrowWidth / 2)
-                    path.lineTo(viewX - arrowHeight, viewY + viewHeight / 2f)
-                    path.lineTo(viewX.toFloat(), (viewY + viewHeight / 2) + arrowWidth / 2)
+                    path.moveTo(balloonX + balloonWidth, (viewY + viewHeight / 2) - arrowWidth / 2)
+                    path.lineTo(balloonX + balloonWidth + arrowHeight, viewY + viewHeight / 2f)
+                    path.lineTo(balloonX + balloonWidth, (viewY + viewHeight / 2) + arrowWidth / 2)
                     path.close()
                 }
                 "RIGHT" -> {
-                    path.moveTo(viewX + viewWidth.toFloat(), (viewY + viewHeight / 2) - arrowWidth / 2)
-                    path.lineTo(viewX + viewWidth + arrowHeight, viewY + viewHeight / 2f)
-                    path.lineTo(viewX + viewWidth.toFloat(), (viewY + viewHeight / 2) + arrowWidth / 2)
+                    path.moveTo(balloonX, (viewY + viewHeight / 2) - arrowWidth / 2)
+                    path.lineTo(balloonX - arrowHeight, viewY + viewHeight / 2f)
+                    path.lineTo(balloonX, (viewY + viewHeight / 2) + arrowWidth / 2)
                     path.close()
                 }
             }
-
-
 
             canvas.drawPath(path, balloonPaint)
 
@@ -322,7 +339,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
     private fun showDialog() {
         val dialog = OverlayDialogFragment()
         dialog.onShowButtonClick = {
-            binding.btZap.drawHighlight("Aqui um texto informando \no que tem de novidade.")
+            binding.btZap.drawHighlight("Aqui um texto informando /no que tem de novidade.")
         }
         dialog.show(childFragmentManager, "DIALOG")
     }
