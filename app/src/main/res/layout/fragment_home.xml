@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.view.fragments.home.HomeFragment">
 
+    <!-- ... Seu RecyclerView aqui ... -->
     <com.todkars.shimmer.ShimmerRecyclerView
         android:id="@+id/rvList"
         android:layout_width="match_parent"
@@ -21,7 +21,25 @@
         app:layout_constraintTop_toTopOf="parent"
         app:shimmer_recycler_item_count="12"
         app:shimmer_recycler_layout="@layout/loading_pokemon"
-        tools:listitem="@layout/item_pokemon"/>
+        tools:listitem="@layout/item_pokemon" />
 
+    <Button
+        android:id="@+id/bt_zap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:elevation="4dp"
+        android:text="Um Texto Qualquer aqui"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/rvList"
+        app:layout_constraintEnd_toEndOf="parent"
+         />
+
+    <ImageView
+        android:id="@+id/iv_overlay_with_hole"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="8dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
