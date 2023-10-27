@@ -24,7 +24,6 @@ import androidx.appcompat.widget.SearchView
 import com.dmribeiro.pokedex_app.presentation.MainActivity
 import com.dmribeiro.pokedex_app.R
 import android.view.LayoutInflater
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -34,6 +33,10 @@ import com.dmribeiro.pokedex_app.presentation.view.fragments.OverlayDialogFragme
 import com.dmribeiro.pokedex_app.utils.viewBinding
 import kotlinx.coroutines.launch
 import android.graphics.Path
+import android.util.Log
+import android.widget.ImageView
+import java.lang.Math.sqrt
+import kotlin.math.pow
 
 
 @AndroidEntryPoint
@@ -45,9 +48,11 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
     private var lastPosition: Int = 0
     private val homeAdapter: PokemonHomeAdapter by lazy { PokemonHomeAdapter() }
     private lateinit var mLayoutManager: GridLayoutManager
-    private var overlay: Bitmap? = null
+    private var overlayImageView: ImageView? = null
+
     private var dX = 0f
     private var dY = 0f
+    private var balloonY = 0f
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,10 +88,10 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
                 addDuration = 300
             }
         }
-        binding.rvList.showShimmer()
+        //binding.rvList.showShimmer()
         setupRecyclerView()
 
-        showDialog()
+        //showDialog()
 
         binding.btZap.setOnTouchListener { view, event ->
             when (event.action) {
@@ -95,110 +100,52 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
                     dY = view.y - event.rawY
                     true
                 }
+
                 MotionEvent.ACTION_MOVE -> {
+                    val newX = event.rawX + dX
+                    val newY = event.rawY + dY
                     view.animate()
-                        .x(event.rawX + dX)
-                        .y(event.rawY + dY)
+                        .x(newX)
+                        .y(newY)
                         .setDuration(0)
                         .start()
-                    binding.btZap.redrawHoleForButton()  // Esta função irá redesenhar o buraco no overlay
+                    binding.btZap.drawHighlightDef("Aqui o texto de \nteste \nmais texto mais texto mais texto. \nquebra.", newX = 147)
                     true
                 }
+
                 else -> false
             }
         }
 
+
         // Chamar showDialog() depois que o layout for processado
-        view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        view.viewTreeObserver.addOnGlobalLayoutListener(object :
+            ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 // Remover o listener para que não seja chamado novamente
                 view.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                //binding.btZap.drawHighlight()
+                binding.btZap.post {
+                    binding.btZap.drawHighlightDef("Aqui o texto de \nteste \nmais texto mais texto mais texto. \nquebra.", newX = 147)
+                }
             }
         })
     }
 
-    fun View.redrawHoleForButton() {
+
+    private fun View.drawHighlightDef(tooltipText: String = "", newX: Int = 0) {
         val displayMetrics = resources.displayMetrics
         val screenWidth = displayMetrics.widthPixels
         val screenHeight = displayMetrics.heightPixels
 
         val overlay = Bitmap.createBitmap(screenWidth, screenHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(overlay)
-        canvas.drawColor(Color.parseColor("#80000000"))
-
-        val coords = IntArray(2)
-        this.getLocationInWindow(coords)
-        val buttonX = coords[0]
-        val buttonY = coords[1]
-        val buttonWidth = this.width
-        val buttonHeight = this.height
-
-        val clearPaint = Paint().apply {
-            xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
-            style = Paint.Style.FILL
-        }
-
-        canvas.drawRect(
-            buttonX.toFloat() - 10, // Largura do lado esquerdo
-            buttonY.toFloat() - 10, // Altura do top
-            (buttonX + buttonWidth).toFloat() + 10f, // Largura do lado direito
-            (buttonY + buttonHeight).toFloat() + 10f, // Altura da base
-            clearPaint
-        )
-
-        // Verifica se o pai da View é um ViewGroup
-        val parent = this.parent
-        if (parent is ViewGroup) {
-            // Cria o ImageView
-            val overlayImageView = ImageView(this.context).apply {
-                layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-                setImageBitmap(overlay)
-                visibility = View.VISIBLE
-            }
-
-            // Remove um ImageView anterior, se existir
-            val existingImageView = parent.findViewWithTag<ImageView>("OverlayWithHoleTag")
-            existingImageView?.let { parent.removeView(it) }
-
-            // Adiciona tag ao ImageView para poder encontrá-lo e removê-lo mais tarde
-            overlayImageView.tag = "OverlayWithHoleTag"
-
-            // Adiciona o ImageView ao ViewGroup
-            parent.addView(overlayImageView)
-        }
-    }
-
-
-
-
-
-    private fun statusBarHeightNew(): Int {
-        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-        return if (resourceId > 0) {
-            resources.getDimensionPixelSize(resourceId)
-        } else {
-            0
-        }
-    }
-
-
-    fun View.drawHighlight(tooltipText: String = "") {
-        val displayMetrics = resources.displayMetrics
-        val screenWidth = displayMetrics.widthPixels
-        val screenHeight = displayMetrics.heightPixels
-
-        val overlay = Bitmap.createBitmap(screenWidth, screenHeight, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(overlay)
+        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
         canvas.drawColor(Color.parseColor("#80000000"))
 
         val coordinates = IntArray(2)
-        this.getLocationInWindow(coordinates)
+        this.getLocationOnScreen(coordinates)
         val viewX = coordinates[0]
-        val viewY = coordinates[1] - statusBarHeight(this.context)
+        val viewY = coordinates[1] - newX
         val viewWidth = this.width
         val viewHeight = this.height
 
@@ -215,21 +162,28 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
             clearPaint
         )
 
+        Log.d("HighlightDebug", "X: $viewX, Y: $viewY, Width: $viewWidth, Height: $viewHeight")
+
         // Verifica se o pai da View é um ViewGroup
         val parent = this.parent
         if (parent is ViewGroup) {
             // Cria o ImageView
-            val overlayImageView = ImageView(this.context).apply {
+            overlayImageView?.let {
+                (it.parent as? ViewGroup)?.removeView(it)
+            }
+
+            overlayImageView = ImageView(this.context).apply {
                 layoutParams = ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
                 setImageBitmap(overlay)
+                scaleType = ImageView.ScaleType.FIT_XY
                 visibility = View.VISIBLE
+                elevation = 10f
             }
 
-            // Adiciona o ImageView ao ViewGroup
-            parent.addView(overlayImageView)
+            parent.addView(overlayImageView, 0)
         }
 
         val margin = 10f
@@ -239,17 +193,25 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         if (tooltipText.isNotEmpty()) {
             val textPaint = Paint().apply {
                 color = Color.WHITE
-                textSize = 12f * resources.displayMetrics.scaledDensity // 12sp
+                textSize = 12f * resources.displayMetrics.scaledDensity
                 isAntiAlias = true
             }
 
+            // Divida o texto por quebras de linha para desenhar cada linha separadamente
+            val lines = tooltipText.split("\n")
+            val textHeight = textPaint.textSize
+            val maxWidth = lines.maxOf { textPaint.measureText(it) }
             val padding = 20f // 20f padding
-            val textWidth = textPaint.measureText(tooltipText)
-            val balloonWidth = textWidth + 2 * padding
-            val balloonHeight = textPaint.textSize + 2 * padding
+            val balloonWidth = maxWidth + 2 * padding
+            // Calcule a altura total do texto considerando todas as linhas e o espaçamento entre elas
+            val totalTextHeight = lines.size * textHeight + (lines.size - 1) * 5f  // supondo 5f como espaçamento entre linhas
+
+            // Atualize a altura do balloon de acordo com a altura total do texto
+            val balloonHeight = totalTextHeight + 2 * padding
 
             var balloonX = (viewX + viewWidth / 2) - balloonWidth / 2
-            var balloonY = viewY - balloonHeight - padding - arrowHeight // considerando a altura da seta
+            var balloonY =
+                viewY - balloonHeight - padding - arrowHeight // considerando a altura da seta
 
             var arrowDirection = "TOP"
 
@@ -257,17 +219,20 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
                 balloonY - margin >= 0 -> {
                     // Mantém a posição atual (acima da View)
                 }
+
                 balloonY + balloonHeight + viewHeight + 2 * padding + arrowHeight + margin <= screenHeight -> {
                     // Abaixo da View
                     balloonY = viewY + viewHeight + padding
                     arrowDirection = "BOTTOM"
                 }
+
                 viewX + viewWidth + balloonWidth + padding + margin <= screenWidth -> {
                     // Lado direito da View
                     balloonX = viewX + viewWidth + padding
                     balloonY = viewY + (viewHeight - balloonHeight) / 2
                     arrowDirection = "RIGHT"
                 }
+
                 viewX - balloonWidth - padding - margin >= 0 -> {
                     // Lado esquerdo da View
                     balloonX = viewX - balloonWidth - padding
@@ -277,8 +242,10 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
             }
 
             // Garantindo que o tooltip não ultrapasse as bordas da tela
-            balloonX = balloonX.coerceAtLeast(margin).coerceAtMost(screenWidth - balloonWidth - margin)
-            balloonY = balloonY.coerceAtLeast(margin).coerceAtMost(screenHeight - balloonHeight - margin)
+            balloonX =
+                balloonX.coerceAtLeast(margin).coerceAtMost(screenWidth - balloonWidth - margin)
+            balloonY =
+                balloonY.coerceAtLeast(margin).coerceAtMost(screenHeight - balloonHeight - margin)
 
             val rect = RectF(balloonX, balloonY, balloonX + balloonWidth, balloonY + balloonHeight)
             val balloonPaint = Paint().apply {
@@ -297,18 +264,21 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
                     path.lineTo((viewX + viewWidth / 2) + arrowWidth / 2, balloonY + balloonHeight)
                     path.close()
                 }
+
                 "BOTTOM" -> {
                     path.moveTo((viewX + viewWidth / 2) - arrowWidth / 2, balloonY)
                     path.lineTo(viewX + viewWidth / 2f, balloonY - arrowHeight)
                     path.lineTo((viewX + viewWidth / 2) + arrowWidth / 2, balloonY)
                     path.close()
                 }
+
                 "LEFT" -> {
                     path.moveTo(balloonX + balloonWidth, (viewY + viewHeight / 2) - arrowWidth / 2)
                     path.lineTo(balloonX + balloonWidth + arrowHeight, viewY + viewHeight / 2f)
                     path.lineTo(balloonX + balloonWidth, (viewY + viewHeight / 2) + arrowWidth / 2)
                     path.close()
                 }
+
                 "RIGHT" -> {
                     path.moveTo(balloonX, (viewY + viewHeight / 2) - arrowWidth / 2)
                     path.lineTo(balloonX - arrowHeight, viewY + viewHeight / 2f)
@@ -320,30 +290,187 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
             canvas.drawPath(path, balloonPaint)
 
             // Desenhar texto
-            val textX = balloonX + padding
-            val textY = balloonY + balloonHeight / 2 + textPaint.textSize / 3
-            canvas.drawText(tooltipText, textX, textY, textPaint)
+            val textStartY = balloonY + padding - textPaint.ascent()
+
+            // Desenhe cada linha de texto
+            var currentTextY = textStartY
+            for (line in lines) {
+                val textX = balloonX + padding
+                canvas.drawText(line, textX, currentTextY, textPaint)
+                currentTextY += textHeight + 5f
+            }
         }
     }
 
-    // Função auxiliar para obter a altura da barra de status e usar como ponto de referência
-    private fun statusBarHeight(context: Context): Int {
-        val resourceId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
+
+
+    private fun statusBarHeightNew(): Int {
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
         return if (resourceId > 0) {
-            context.resources.getDimensionPixelSize(resourceId)
+            resources.getDimensionPixelSize(resourceId)
         } else {
             0
         }
     }
 
-    private fun showDialog() {
-        val dialog = OverlayDialogFragment()
-        dialog.onShowButtonClick = {
-            binding.btZap.drawHighlight("Aqui um texto informando /no que tem de novidade.")
+
+    //    private fun drawHighlight(targetView: View, tooltipText: String = "") {
+//        val displayMetrics = targetView.resources.displayMetrics
+//        val screenWidth = displayMetrics.widthPixels
+//        val screenHeight = displayMetrics.heightPixels
+//
+//        val overlay = Bitmap.createBitmap(screenWidth, screenHeight, Bitmap.Config.ARGB_8888)
+//        val canvas = Canvas(overlay)
+//        canvas.drawColor(Color.parseColor("#80000000"))
+//
+//        val coordinates = IntArray(2)
+//        targetView.getLocationInWindow(coordinates)
+//        val viewX = coordinates[0]
+//        val viewY = coordinates[1] - statusBarHeight(targetView.context)
+//        val viewWidth = targetView.width
+//        val viewHeight = targetView.height
+//
+//        val clearPaint = Paint().apply {
+//            xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
+//            style = Paint.Style.FILL
+//        }
+//
+//        canvas.drawRect(
+//            viewX.toFloat() - 10, // Largura do lado esquerdo
+//            viewY.toFloat() - 10, // Altura do top
+//            (viewX + viewWidth).toFloat() + 10f, // Largura do lado direito
+//            (viewY + viewHeight).toFloat() + 10f, // Altura da base
+//            clearPaint
+//        )
+//
+//
+//        val margin = 10f
+//        val arrowHeight = 15f // Altura da seta
+//        val arrowWidth = 20f // Largura da base da seta
+//
+//
+//        if (tooltipText.isNotEmpty()) {
+//            val textPaint = Paint().apply {
+//                color = Color.WHITE
+//                textSize = 12f * resources.displayMetrics.scaledDensity
+//                isAntiAlias = true
+//            }
+//
+//            // Divida o texto por quebras de linha para desenhar cada linha separadamente
+//            val lines = tooltipText.split("\n")
+//            val textHeight = textPaint.textSize
+//            val textWidth = textPaint.measureText(tooltipText)
+//            val padding = 20f // 20f padding
+//            val balloonWidth = textWidth + 2 * padding
+//            // Calcule a altura total do texto considerando todas as linhas e o espaçamento entre elas
+//            val totalTextHeight = lines.size * textHeight + (lines.size - 1) * 5f  // supondo 5f como espaçamento entre linhas
+//
+//
+//            // Atualize a altura do balloon de acordo com a altura total do texto
+//            val balloonHeight = totalTextHeight + 2 * padding
+//
+//            var balloonX = (viewX + viewWidth / 2) - balloonWidth / 2
+//            var balloonY = viewY - balloonHeight - padding - arrowHeight // considerando a altura da seta
+//
+//            var arrowDirection = "TOP"
+//
+//            when {
+//                balloonY - margin >= 0 -> {
+//                    // Mantém a posição atual (acima da View)
+//                }
+//                balloonY + balloonHeight + viewHeight + 2 * padding + arrowHeight + margin <= screenHeight -> {
+//                    // Abaixo da View
+//                    balloonY = viewY + viewHeight + padding
+//                    arrowDirection = "BOTTOM"
+//                }
+//                viewX + viewWidth + balloonWidth + padding + margin <= screenWidth -> {
+//                    // Lado direito da View
+//                    balloonX = viewX + viewWidth + padding
+//                    balloonY = viewY + (viewHeight - balloonHeight) / 2
+//                    arrowDirection = "RIGHT"
+//                }
+//                viewX - balloonWidth - padding - margin >= 0 -> {
+//                    // Lado esquerdo da View
+//                    balloonX = viewX - balloonWidth - padding
+//                    balloonY = viewY + (viewHeight - balloonHeight) / 2
+//                    arrowDirection = "LEFT"
+//                }
+//            }
+//
+//            // Garantindo que o tooltip não ultrapasse as bordas da tela
+//            balloonX = balloonX.coerceAtLeast(margin).coerceAtMost(screenWidth - balloonWidth - margin)
+//            balloonY = balloonY.coerceAtLeast(margin).coerceAtMost(screenHeight - balloonHeight - margin)
+//
+//            val rect = RectF(balloonX, balloonY, balloonX + balloonWidth, balloonY + balloonHeight)
+//            val balloonPaint = Paint().apply {
+//                color = Color.BLACK
+//                style = Paint.Style.FILL
+//                isAntiAlias = true
+//            }
+//            canvas.drawRoundRect(rect, 25f, 25f, balloonPaint)
+//
+//            // Desenhar a seta
+//            val path = Path()
+//            when (arrowDirection) {
+//                "TOP" -> {
+//                    path.moveTo((viewX + viewWidth / 2) - arrowWidth / 2, balloonY + balloonHeight)
+//                    path.lineTo(viewX + viewWidth / 2f, balloonY + balloonHeight + arrowHeight)
+//                    path.lineTo((viewX + viewWidth / 2) + arrowWidth / 2, balloonY + balloonHeight)
+//                    path.close()
+//                }
+//                "BOTTOM" -> {
+//                    path.moveTo((viewX + viewWidth / 2) - arrowWidth / 2, balloonY)
+//                    path.lineTo(viewX + viewWidth / 2f, balloonY - arrowHeight)
+//                    path.lineTo((viewX + viewWidth / 2) + arrowWidth / 2, balloonY)
+//                    path.close()
+//                }
+//                "LEFT" -> {
+//                    path.moveTo(balloonX + balloonWidth, (viewY + viewHeight / 2) - arrowWidth / 2)
+//                    path.lineTo(balloonX + balloonWidth + arrowHeight, viewY + viewHeight / 2f)
+//                    path.lineTo(balloonX + balloonWidth, (viewY + viewHeight / 2) + arrowWidth / 2)
+//                    path.close()
+//                }
+//                "RIGHT" -> {
+//                    path.moveTo(balloonX, (viewY + viewHeight / 2) - arrowWidth / 2)
+//                    path.lineTo(balloonX - arrowHeight, viewY + viewHeight / 2f)
+//                    path.lineTo(balloonX, (viewY + viewHeight / 2) + arrowWidth / 2)
+//                    path.close()
+//                }
+//            }
+//
+//            canvas.drawPath(path, balloonPaint)
+//
+//            // Desenhar texto
+//            val textStartY = balloonY + padding - textPaint.ascent()
+//
+//            // Desenhe cada linha de texto
+//            var currentTextY = textStartY
+//            for (line in lines) {
+//                val textX = balloonX + padding
+//                canvas.drawText(line, textX, currentTextY, textPaint)
+//                currentTextY += textHeight + 5f
+//            }
+//        }
+//        binding.ivOverlayWithHole.setImageBitmap(overlay)
+//    }
+
+    // Função auxiliar para obter a altura da barra de status e usar como ponto de referência
+    fun statusBarHeight(context: Context): Int {
+        var result = 0
+        val resourceId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
+        if (resourceId > 0) {
+            result = context.resources.getDimensionPixelSize(resourceId)
         }
-        dialog.show(childFragmentManager, "DIALOG")
+        return result
     }
 
+//    private fun showDialog() {
+//        val dialog = OverlayDialogFragment()
+//        dialog.onShowButtonClick = {
+//            //drawHighlight(binding.ivOverlayWithHole, "Aqui um texto informando no que tem de novidade.")
+//        }
+//        dialog.show(childFragmentManager, "DIALOG")
+//    }
 
 
     private fun setupRecyclerView() {
@@ -363,24 +490,26 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     private fun requestApiData() {
-        lifecycleScope.launch{
+        lifecycleScope.launch {
             homeViewModel.pokemonResponse.observe(viewLifecycleOwner) { response ->
                 when (response) {
                     is Resource.Success -> {
-                        binding.rvList.hideShimmer()
+                        //binding.rvList.hideShimmer()
                         response.data?.let {
                             homeAdapter.setData(it)
                         }
                     }
+
                     is Resource.Error -> {
                         response.let {
-                            binding.rvList.hideShimmer()
+                            //binding.rvList.hideShimmer()
                             Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT)
                                 .show()
                         }
                     }
+
                     is Resource.Loading -> {
-                        binding.rvList.showShimmer()
+                        //binding.rvList.showShimmer()
                     }
                 }
             }
