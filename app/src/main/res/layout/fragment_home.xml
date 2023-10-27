@@ -26,12 +26,12 @@
         android:id="@+id/bt_zap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
         android:background="@color/white_100_percent_opacity"
         android:contentDescription="TODO"
         android:src="@drawable/whatsapp"
         android:textColor="@color/white"
-        android:layout_margin="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/rvList" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
