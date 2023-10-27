@@ -22,14 +22,13 @@
         app:shimmer_recycler_layout="@layout/loading_pokemon"
         tools:listitem="@layout/item_pokemon" />
 
-    <ImageButton
+    <Button
         android:id="@+id/bt_zap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:background="@color/white_100_percent_opacity"
         android:contentDescription="TODO"
-        android:src="@drawable/whatsapp"
+        android:text="Any Text"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/rvList" />
