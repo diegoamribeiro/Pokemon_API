@@ -96,33 +96,30 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         setupRecyclerView()
 
         //showDialog()
-        binding.btZap.setOnClickListener {
-            highlighter.highlight(it, "Aqui o texto de teste \nmais texto mais texto mais texto. \nquebra.")
-        }
 
-        binding.btZap.setOnTouchListener { view, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    dX = view.x - event.rawX
-                    dY = view.y - event.rawY
-                    true
-                }
-
-                MotionEvent.ACTION_MOVE -> {
-                    val newX = event.rawX + dX
-                    val newY = event.rawY + dY
-                    view.animate()
-                        .x(newX)
-                        .y(newY)
-                        .setDuration(0)
-                        .start()
-                    highlighter.highlight(view, "Aqui o texto de \nteste \nmais texto mais texto mais texto. \nquebra.")
-                    true
-                }
-
-                else -> false
-            }
-        }
+//        binding.btZap.setOnTouchListener { view, event ->
+//            when (event.action) {
+//                MotionEvent.ACTION_DOWN -> {
+//                    dX = view.x - event.rawX
+//                    dY = view.y - event.rawY
+//                    true
+//                }
+//
+//                MotionEvent.ACTION_MOVE -> {
+//                    val newX = event.rawX + dX
+//                    val newY = event.rawY + dY
+//                    view.animate()
+//                        .x(newX)
+//                        .y(newY)
+//                        .setDuration(0)
+//                        .start()
+//                    highlighter.drawHighlight(view, "Aqui o texto de \nteste \nmais texto mais texto mais texto. \nquebra.")
+//                    true
+//                }
+//
+//                else -> false
+//            }
+//        }
 
 
         // Chamar showDialog() depois que o layout for processado
@@ -131,9 +128,8 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
             override fun onGlobalLayout() {
                 // Remover o listener para que não seja chamado novamente
                 view.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                binding.btZap.post {
-                    highlighter.highlight(binding.btZap, "Aqui o texto de \nteste \nmais texto mais texto mais texto. \nquebra.")
-                }
+                highlighter.drawHighlight(binding.btZap, "Aqui o texto de \nteste \nmais texto mais texto mais texto. \nquebra.")
+
             }
         })
     }

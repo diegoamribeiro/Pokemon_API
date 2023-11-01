@@ -18,169 +18,188 @@ class Highlighter(private val context: Context) {
 
     private var popupWindow: PopupWindow? = null
 
-    fun highlight(viewToHighlight: View, tooltipText: String) {
-        viewToHighlight.drawHighlightDef(tooltipText)
+    fun drawHighlight(viewToHighlight: View, tooltipText: String) {
+        draw(viewToHighlight, tooltipText)
     }
 
-    private fun View.drawHighlightDef(tooltipText: String) {
-        fun draw() {
-            val popupView = object : View(context) {
-                override fun onDraw(canvas: Canvas) {
-                    super.onDraw(canvas)
-                    canvas.drawColor(Color.parseColor("#80000000"))
+    private fun draw(view: View, tooltipText: String) {
+        val popupView = object : View(view.context) {
+            override fun onDraw(canvas: Canvas) {
+                super.onDraw(canvas)
+                canvas.drawColor(Color.parseColor(OVERLAY_COLOR_ALPHA))
 
-                    val clearPaint = Paint().apply {
-                        xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
-                        style = Paint.Style.FILL
+                val clearPaint = Paint().apply {
+                    xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
+                    style = Paint.Style.FILL
+                }
+
+                val coordinates = IntArray(2)
+                view.getLocationOnScreen(coordinates)
+                val statusBarHeight: Int = getStatusBarHeight()
+                val viewX = coordinates[0].toFloat()
+                val viewY = coordinates[1].toFloat() - statusBarHeight
+                val viewWidth = view.width.toFloat()
+                val viewHeight = view.height.toFloat()
+                val displayMetrics = Resources.getSystem().displayMetrics
+                val screenHeight = displayMetrics.heightPixels
+                val screenWidth = displayMetrics.widthPixels
+
+                // Desenha o retângulo transparente
+                canvas.drawRect(
+                    viewX - RECTANGLE_PADDING,
+                    viewY - RECTANGLE_PADDING,
+                    viewX + viewWidth + RECTANGLE_PADDING,
+                    viewY + viewHeight + RECTANGLE_PADDING,
+                    clearPaint
+                )
+
+                val rect = RectF(viewX, viewY, viewX + viewWidth, viewY + viewHeight)
+
+                // Desenha tooltip caso haja texto
+                if (tooltipText.isNotEmpty()) {
+                    val textPaint = Paint().apply {
+                        color = Color.WHITE
+                        textSize = TEXT_SIZE_MULTIPLIER * context.resources.displayMetrics.scaledDensity
+                        isAntiAlias = true
                     }
 
-                    val coordinates = IntArray(2)
-                    this@drawHighlightDef.getLocationOnScreen(coordinates)
-                    val statusBarHeight: Int = getStatusBarHeight()
-                    val viewX = coordinates[0].toFloat()
-                    val viewY = coordinates[1].toFloat() - statusBarHeight
-                    val viewWidth = this@drawHighlightDef.width.toFloat()
-                    val viewHeight = this@drawHighlightDef.height.toFloat()
-                    val displayMetrics = Resources.getSystem().displayMetrics
-                    val screenHeight = displayMetrics.heightPixels
-                    val screenWidth = displayMetrics.widthPixels
+                    val lines = tooltipText.split("\n")
+                    val textHeight = textPaint.textSize
+                    val maxWidth = lines.maxOf { textPaint.measureText(it) }
+                    val balloonWidth = maxWidth + 2 * TEXT_PADDING
+                    val totalTextHeight = lines.size * textHeight + (lines.size - 1) * LINE_SPACING
 
-                    // Desenhar o retângulo transparente
-                    canvas.drawRect(
-                        viewX - 10,
-                        viewY - 10,
-                        viewX + viewWidth + 10,
-                        viewY + viewHeight + 10,
-                        clearPaint
-                    )
+                    val balloonHeight = totalTextHeight + 2 * TEXT_PADDING
 
-                    val margin = 10f
-                    val arrowHeight = 15f
-                    val arrowWidth = 20f
-                    val rect = RectF(viewX, viewY, viewX + viewWidth, viewY + viewHeight)
+                    var balloonX = (rect.left + rect.width() / 2) - balloonWidth / 2
+                    var balloonY = rect.top - balloonHeight - TEXT_PADDING - ARROW_HEIGHT
 
+                    var arrowDirection = ARROW_DIRECTION_TOP
 
-                    if (tooltipText.isNotEmpty()) {
-                        val textPaint = Paint().apply {
-                            color = Color.WHITE
-                            textSize = 12f * resources.displayMetrics.scaledDensity
-                            isAntiAlias = true
+                    when {
+                        balloonY - MARGIN >= 0 -> { /* Mantém a posição atual (acima da View) */
                         }
 
-                        val lines = tooltipText.split("\n")
-                        val textHeight = textPaint.textSize
-                        val maxWidth = lines.maxOf { textPaint.measureText(it) }
-                        val padding = 20f
-                        val balloonWidth = maxWidth + 2 * padding
-                        val totalTextHeight = lines.size * textHeight + (lines.size - 1) * 5f
-
-                        val balloonHeight = totalTextHeight + 2 * padding
-
-                        var balloonX = (rect.left + rect.width() / 2) - balloonWidth / 2
-                        var balloonY = rect.top - balloonHeight - padding - arrowHeight
-
-                        var arrowDirection = ARROW_DIRECTION_TOP
-
-                        when {
-                            balloonY - margin >= 0 -> { /* Mantém a posição atual (acima da View) */ }
-
-                            balloonY + balloonHeight + rect.height() + 2 * padding + arrowHeight + margin <= screenHeight -> {
-                                balloonY = rect.bottom + padding
-                                arrowDirection = ARROW_DIRECTION_BOTTOM
-                            }
-
-                            rect.right + balloonWidth + padding + margin <= screenWidth -> {
-                                balloonX = rect.right + padding
-                                balloonY = rect.top + (rect.height() - balloonHeight) / 2
-                                arrowDirection = ARROW_DIRECTION_RIGHT
-                            }
-
-                            rect.left - balloonWidth - padding - margin >= 0 -> {
-                                balloonX = rect.left - balloonWidth - padding
-                                balloonY = rect.top + (rect.height() - balloonHeight) / 2
-                                arrowDirection = ARROW_DIRECTION_LEFT
-                            }
+                        balloonY + balloonHeight + rect.height() + 2 * TEXT_PADDING + ARROW_HEIGHT + MARGIN <= screenHeight -> {
+                            balloonY = rect.bottom + TEXT_PADDING
+                            arrowDirection = ARROW_DIRECTION_BOTTOM
                         }
 
-                        balloonX = balloonX.coerceAtLeast(margin).coerceAtMost(screenWidth - balloonWidth - margin)
-                        balloonY = balloonY.coerceAtLeast(margin).coerceAtMost(screenHeight - balloonHeight - margin)
-
-                        val rectF = RectF(balloonX, balloonY, balloonX + balloonWidth, balloonY + balloonHeight)
-                        val balloonPaint = Paint().apply {
-                            color = Color.BLACK
-                            style = Paint.Style.FILL
-                            isAntiAlias = true
-                        }
-                        canvas.drawRoundRect(rectF, 15f, 15f, balloonPaint)
-
-                        val path = Path()
-                        when (arrowDirection) {
-                            ARROW_DIRECTION_TOP -> {
-                                path.moveTo((rect.left + rect.width() / 2) - arrowWidth / 2, balloonY + balloonHeight)
-                                path.lineTo(rect.left + rect.width() / 2f, balloonY + balloonHeight + arrowHeight)
-                                path.lineTo((rect.left + rect.width() / 2) + arrowWidth / 2, balloonY + balloonHeight)
-                                path.close()
-                            }
-
-                            ARROW_DIRECTION_BOTTOM -> {
-                                path.moveTo((rect.left + rect.width() / 2) - arrowWidth / 2, balloonY)
-                                path.lineTo(rect.left + rect.width() / 2f, balloonY - arrowHeight)
-                                path.lineTo((rect.left + rect.width() / 2) + arrowWidth / 2, balloonY)
-                                path.close()
-                            }
-
-                            ARROW_DIRECTION_LEFT -> {
-                                path.moveTo(balloonX + balloonWidth, (rect.top + rect.height() / 2) - arrowWidth / 2)
-                                path.lineTo(balloonX + balloonWidth + arrowHeight, rect.top + rect.height() / 2f)
-                                path.lineTo(balloonX + balloonWidth, (rect.top + rect.height() / 2) + arrowWidth / 2)
-                                path.close()
-                            }
-
-                            ARROW_DIRECTION_RIGHT -> {
-                                path.moveTo(balloonX, (rect.top + rect.height() / 2) - arrowWidth / 2)
-                                path.lineTo(balloonX - arrowHeight, rect.top + rect.height() / 2f)
-                                path.lineTo(balloonX, (rect.top + rect.height() / 2) + arrowWidth / 2)
-                                path.close()
-                            }
+                        rect.right + balloonWidth + TEXT_PADDING + MARGIN <= screenWidth -> {
+                            balloonX = rect.right + TEXT_PADDING
+                            balloonY = rect.top + (rect.height() - balloonHeight) / 2
+                            arrowDirection = ARROW_DIRECTION_RIGHT
                         }
 
-                        canvas.drawPath(path, balloonPaint)
-
-                        val textStartY = balloonY + padding - textPaint.ascent()
-                        var currentTextY = textStartY
-                        for (line in lines) {
-                            val textWidth = textPaint.measureText(line)
-                            val textX = balloonX + (balloonWidth - textWidth) / 2
-                            canvas.drawText(line, textX, currentTextY, textPaint)
-                            currentTextY += textHeight + 5f
+                        rect.left - balloonWidth - TEXT_PADDING - MARGIN >= 0 -> {
+                            balloonX = rect.left - balloonWidth - TEXT_PADDING
+                            balloonY = rect.top + (rect.height() - balloonHeight) / 2
+                            arrowDirection = ARROW_DIRECTION_LEFT
                         }
+                    }
+
+                    balloonX = balloonX.coerceAtLeast(MARGIN)
+                        .coerceAtMost(screenWidth - balloonWidth - MARGIN)
+                    balloonY = balloonY.coerceAtLeast(MARGIN)
+                        .coerceAtMost(screenHeight - balloonHeight - MARGIN)
+
+                    val rectF =
+                        RectF(balloonX, balloonY, balloonX + balloonWidth, balloonY + balloonHeight)
+                    val balloonPaint = Paint().apply {
+                        color = Color.BLACK
+                        style = Paint.Style.FILL
+                        isAntiAlias = true
+                    }
+                    canvas.drawRoundRect(rectF, BALLOON_CORNER_RADIUS, BALLOON_CORNER_RADIUS, balloonPaint)
+
+                    // Aqui é feito o posicionamento do balão referente à view e a tela
+                    val path = Path()
+                    when (arrowDirection) {
+                        ARROW_DIRECTION_TOP -> {
+                            path.moveTo(
+                                (rect.left + rect.width() / 2) - ARROW_WIDTH / 2,
+                                balloonY + balloonHeight
+                            )
+                            path.lineTo(
+                                rect.left + rect.width() / 2f,
+                                balloonY + balloonHeight + ARROW_HEIGHT
+                            )
+                            path.lineTo(
+                                (rect.left + rect.width() / 2) + ARROW_WIDTH / 2,
+                                balloonY + balloonHeight
+                            )
+                            path.close()
+                        }
+
+                        ARROW_DIRECTION_BOTTOM -> {
+                            path.moveTo((rect.left + rect.width() / 2) - ARROW_WIDTH / 2, balloonY)
+                            path.lineTo(rect.left + rect.width() / 2f, balloonY - ARROW_HEIGHT)
+                            path.lineTo((rect.left + rect.width() / 2) + ARROW_WIDTH / 2, balloonY)
+                            path.close()
+                        }
+
+                        ARROW_DIRECTION_LEFT -> {
+                            path.moveTo(
+                                balloonX + balloonWidth,
+                                (rect.top + rect.height() / 2) - ARROW_WIDTH / 2
+                            )
+                            path.lineTo(
+                                balloonX + balloonWidth + ARROW_HEIGHT,
+                                rect.top + rect.height() / 2f
+                            )
+                            path.lineTo(
+                                balloonX + balloonWidth,
+                                (rect.top + rect.height() / 2) + ARROW_WIDTH / 2
+                            )
+                            path.close()
+                        }
+
+                        ARROW_DIRECTION_RIGHT -> {
+                            path.moveTo(balloonX, (rect.top + rect.height() / 2) - ARROW_WIDTH / 2)
+                            path.lineTo(balloonX - ARROW_HEIGHT, rect.top + rect.height() / 2f)
+                            path.lineTo(balloonX, (rect.top + rect.height() / 2) + ARROW_WIDTH / 2)
+                            path.close()
+                        }
+                    }
+
+                    canvas.drawPath(path, balloonPaint)
+
+                    val textStartY = balloonY + TEXT_PADDING - textPaint.ascent()
+                    var currentTextY = textStartY
+                    for (line in lines) {
+                        val textWidth = textPaint.measureText(line)
+                        val textX = balloonX + (balloonWidth - textWidth) / 2
+                        canvas.drawText(line, textX, currentTextY, textPaint)
+                        currentTextY += textHeight + LINE_SPACING
                     }
                 }
             }
-            popupView.setOnClickListener {
-                popupWindow?.dismiss()
-                popupWindow = null
-            }
-
-            popupWindow?.dismiss()
-            popupWindow = PopupWindow(
-                popupView,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                false
-            )
-
-            popupWindow?.showAtLocation(this, Gravity.NO_GRAVITY, 0, 0)
         }
-        draw()
+
+        // O highlight some quando clicado
+        popupView.setOnClickListener {
+            popupWindow?.dismiss()
+            popupWindow = null
+        }
+
+        popupWindow?.dismiss()
+        popupWindow = PopupWindow(
+            popupView,
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            false
+        )
+
+        popupWindow?.showAtLocation(view, Gravity.NO_GRAVITY, 0, 0)
     }
+
 
     private fun getStatusBarHeight(): Int {
         var result = 0
         val resourceId = context.resources.getIdentifier(
             STATUS_BAR_HEIGHT_RESOURCE_NAME,
-            DIMEN_RESOURCE_TYPE,
-            ANDROID_PACKAGE_NAME)
+            DIMEN_RESOURCE_TYPE, ANDROID_PACKAGE_NAME
+        )
         if (resourceId > 0) {
             result = context.resources.getDimensionPixelSize(resourceId)
         }
@@ -199,5 +218,14 @@ class Highlighter(private val context: Context) {
         const val STATUS_BAR_HEIGHT_RESOURCE_NAME = "status_bar_height"
         const val DIMEN_RESOURCE_TYPE = "dimen"
         const val ANDROID_PACKAGE_NAME = "android"
+        private const val OVERLAY_COLOR_ALPHA = "#90000000"
+        private const val RECTANGLE_PADDING = 10f
+        private const val MARGIN = 10f
+        private const val ARROW_HEIGHT = 15f
+        private const val ARROW_WIDTH = 20f
+        private const val TEXT_SIZE_MULTIPLIER = 12f
+        private const val TEXT_PADDING = 20f
+        private const val LINE_SPACING = 5f
+        private const val BALLOON_CORNER_RADIUS = 15f
     }
 }
